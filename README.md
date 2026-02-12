@@ -81,6 +81,17 @@ Chez Scheme 是由 R. Kent Dybvig 开发的高性能 Scheme 实现，现已开�
   - 涵盖基础到高级主题
   - 包含详细的参考答案
 
+- **[PROJECT-TEMPLATE.md](PROJECT-TEMPLATE.md)** - 项目模板
+  - 标准项目结构
+  - Makefile 和构建脚本
+  - 测试框架示例
+  - 最佳实践指南
+
+- **[LANGUAGE-COMPARISON.md](LANGUAGE-COMPARISON.md)** - 语言对比
+  - Chez Scheme vs Python/JavaScript/Java/C++/Haskell/Ruby/Common Lisp/Clojure
+  - 语法对比和概念映射
+  - 从其他语言迁移指南
+
 ## 快速开始
 
 ### 1. 安装 Chez Scheme
