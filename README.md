@@ -58,8 +58,28 @@ Chez Scheme 是由 R. Kent Dybvig 开发的高性能 Scheme 实现，现已开�
 - **[06-library-usage.ss](examples/06-library-usage.ss)** - 库使用示例
   - 导入和使用自定义库
   
+- **[07-file-io.ss](examples/07-file-io.ss)** - 文件 I/O 示例
+  - 文本文件读写、二进制文件、CSV 处理、格式化输出
+  
+- **[08-utilities.ss](examples/08-utilities.ss)** - 实用工具示例
+  - 命令行参数、环境变量、时间日期、哈希表、字符串操作
+  
 - **[mylib.sls](examples/mylib.sls)** - 自定义库实现
   - 数学库、字符串工具、数据结构（栈）
+
+### 参考文档
+
+📚 额外的学习资源：
+
+- **[QUICK-REFERENCE.md](QUICK-REFERENCE.md)** - 快速参考卡片
+  - 所有核心函数和语法的简洁参考
+  - 常用模式和习语
+  - 命令行选项
+  
+- **[EXERCISES.md](EXERCISES.md)** - 练习题和答案
+  - 14 个由浅入深的练习
+  - 涵盖基础到高级主题
+  - 包含详细的参考答案
 
 ## 快速开始
 
@@ -109,9 +129,21 @@ scheme --script examples/04-continuations.ss
 # 运行性能优化示例
 scheme --script examples/05-performance.ss
 
-# 运行库使用示例（需要先编译库）
-scheme --script examples/06-library-usage.ss
+# 运行文件 I/O 示例
+scheme --script examples/07-file-io.ss
+
+# 运行实用工具示例
+scheme --script examples/08-utilities.ss
 ```
+
+### 4. 学习路径
+
+1. **第一天**: 阅读 [tutorial.md](tutorial.md) 的前 5 章，运行 [01-basic-syntax.ss](examples/01-basic-syntax.ss)
+2. **第二天**: 学习宏系统（第 4 章），运行 [02-macros.ss](examples/02-macros.ss) 和完成 [EXERCISES.md](EXERCISES.md) 练习 4-5
+3. **第三天**: 学习记录和模块系统（第 5-6 章），实践 [03-records.ss](examples/03-records.ss)
+4. **第四天**: 深入 continuation（第 3 章），运行 [04-continuations.ss](examples/04-continuations.ss)
+5. **第五天**: 性能优化（第 7 章），分析 [05-performance.ss](examples/05-performance.ss)
+6. **后续**: 完成 [EXERCISES.md](EXERCISES.md) 的所有练习，构建自己的项目
 
 ## 学习路径
 
@@ -180,6 +212,116 @@ scheme --script examples/06-library-usage.ss
 3. 提交你的改动
 4. 推送到分支
 5. 创建 Pull Request
+
+## 实用技巧
+
+### REPL 技巧
+
+```scheme
+;; 加载文件
+(load "myfile.ss")
+
+;; 编译文件
+(compile-file "myfile.ss")
+
+;; 查看帮助
+(help)
+
+;; 跟踪函数
+(trace my-function)
+(untrace my-function)
+
+;; 测量时间
+(time (my-function args))
+
+;; 退出 REPL
+(exit)
+```
+
+### 调试技巧
+
+```scheme
+;; 启用调试模式
+(debug-on-exception #t)
+
+;; 设置断点
+(break)
+
+;; 显示调用栈
+(stack-trace)
+
+;; 使用 debug 宏（自定义）
+(define-syntax debug
+  (syntax-rules ()
+    [(_ expr)
+     (let ([result expr])
+       (display "DEBUG: ")
+       (display 'expr)
+       (display " => ")
+       (display result)
+       (newline)
+       result)]))
+```
+
+### 常见陷阱
+
+1. **内部定义顺序**: 在函数体内，`define` 必须出现在表达式之前
+   ```scheme
+   ;; 错误
+   (define (func)
+     (display "hello")
+     (define x 10)  ; 错误！
+     x)
+   
+   ;; 正确
+   (define (func)
+     (define x 10)
+     (display "hello")
+     x)
+   
+   ;; 或使用 let
+   (define (func)
+     (display "hello")
+     (let ([x 10])
+       x))
+   ```
+
+2. **尾递归**: 确保递归调用在尾位置
+   ```scheme
+   ;; 非尾递归（会栈溢出）
+   (define (sum n)
+     (if (= n 0)
+         0
+         (+ n (sum (- n 1)))))
+   
+   ;; 尾递归（OK）
+   (define (sum n)
+     (let loop ([n n] [acc 0])
+       (if (= n 0)
+           acc
+           (loop (- n 1) (+ acc n)))))
+   ```
+
+3. **宏卫生**: 使用 syntax-case 避免变量捕获
+   ```scheme
+   ;; 不好的宏（可能捕获 tmp）
+   (define-syntax swap-bad
+     (syntax-rules ()
+       [(_ a b)
+        (let ([tmp a])
+          (set! a b)
+          (set! b tmp))]))
+   
+   ;; 好的宏（使用 syntax-case）
+   (define-syntax swap-good
+     (lambda (x)
+       (syntax-case x ()
+         [(_ a b)
+          (with-syntax ([tmp (datum->syntax #'a (gensym))])
+            #'(let ([tmp a])
+                (set! a b)
+                (set! b tmp)))])))
+   ```
 
 ## 许可证
 
