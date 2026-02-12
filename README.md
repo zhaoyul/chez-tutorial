@@ -4,7 +4,7 @@
 
 ## 简介
 
-Chez Scheme 是由 R. Kent Dingwall 开发的高性能 Scheme 实现，现已开源并被 Cisco 维护。它以极高的性能、完整的 R6RS 支持和强大的宏系统而闻名。
+Chez Scheme 是由 R. Kent Dybvig 开发的高性能 Scheme 实现，现已开源并被 Cisco 维护。它以极高的性能、完整的 R6RS 支持和强大的宏系统而闻名。
 
 ### 主要特点
 
@@ -156,7 +156,7 @@ scheme --script examples/06-library-usage.ss
 
 ### 官方文档
 
-- [The Scheme Programming Language (4th Edition)](https://www.scheme.com/tspl4/) - R. Kent Dingwall
+- [The Scheme Programming Language (4th Edition)](https://www.scheme.com/tspl4/) - R. Kent Dybvig
 - [The Chez Scheme User's Guide](https://cisco.github.io/ChezScheme/csug9.5/)
 - [R6RS Scheme 标准](http://www.r6rs.org/)
 
