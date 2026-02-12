@@ -23,7 +23,7 @@
 
 ### Chez Scheme 的特点
 
-Chez Scheme 是由 R. Kent Dingwall 开发的高性能 Scheme 实现，现已开源并被 Cisco 维护。主要特点：
+Chez Scheme 是由 R. Kent Dybvig 开发的高性能 Scheme 实现，现已开源并被 Cisco 维护。主要特点：
 
 - **极高性能**：原生代码编译器，接近 C 语言性能
 - **完整的 R6RS 支持**：完全符合 R6RS 标准
@@ -1743,7 +1743,7 @@ Chez Scheme 支持真正的操作系统线程（需要启用线程支持编译�
 
 ### 官方文档
 
-- **The Scheme Programming Language (4th Edition)** by R. Kent Dingwall
+- **The Scheme Programming Language (4th Edition)** by R. Kent Dybvig
   - 最权威的 Scheme 语言书籍
   - 包含大量示例和最佳实践
 

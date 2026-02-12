@@ -105,10 +105,11 @@
   (import (chezscheme))
   
   (define-record-type stack
-    (fields (mutable items)))
-  
-  (define (make-stack)
-    (make-stack '()))
+    (fields (mutable items))
+    (protocol
+     (lambda (new)
+       (lambda ()
+         (new '())))))
   
   (define (push! stk item)
     (unless (stack? stk)
