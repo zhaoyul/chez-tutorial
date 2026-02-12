@@ -1,0 +1,24 @@
+# Compiled Scheme files
+*.so
+*.sls.so
+*.ss.so
+
+# Temporary files
+*~
+*.bak
+*.swp
+.DS_Store
+
+# Build artifacts
+build/
+dist/
+*.o
+*.a
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-*
+
+# OS files
+Thumbs.db

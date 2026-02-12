@@ -21,7 +21,7 @@
   (display "列表: ") (display '(1 2 3 4 5)) (newline)
   
   ;; 向量
-  (display "向量: ") (display #(1 2 3 4 5)) (newline)
+  (display "向量: ") (write (vector 1 2 3 4 5)) (newline)
   
   (newline))
 
@@ -56,53 +56,58 @@
   (newline))
 
 ;; 3. 函数示例
+(define (square x) (* x x))
+
+(define (factorial n)
+  (if (<= n 1)
+      1
+      (* n (factorial (- n 1)))))
+
+(define (factorial-tail n)
+  (let loop ([n n] [acc 1])
+    (if (<= n 1)
+        acc
+        (loop (- n 1) (* n acc)))))
+
+(define (sum . args)
+  (apply + args))
+
+(define (make-counter)
+  (let ([count 0])
+    (lambda ()
+      (set! count (+ count 1))
+      count)))
+
 (define (demonstrate-functions)
   (display "=== 函数示例 ===\n")
   
   ;; 简单函数
-  (define (square x) (* x x))
   (display "平方函数 square(5): ") 
   (display (square 5))
   (newline)
   
   ;; 递归函数
-  (define (factorial n)
-    (if (<= n 1)
-        1
-        (* n (factorial (- n 1)))))
   (display "阶乘 factorial(5): ")
   (display (factorial 5))
   (newline)
   
   ;; 尾递归优化
-  (define (factorial-tail n)
-    (let loop ([n n] [acc 1])
-      (if (<= n 1)
-          acc
-          (loop (- n 1) (* n acc)))))
   (display "尾递归阶乘 factorial-tail(5): ")
   (display (factorial-tail 5))
   (newline)
   
   ;; 可变参数
-  (define (sum . args)
-    (apply + args))
   (display "可变参数求和 sum(1,2,3,4,5): ")
   (display (sum 1 2 3 4 5))
   (newline)
   
   ;; 闭包
-  (define (make-counter)
-    (let ([count 0])
-      (lambda ()
-        (set! count (+ count 1))
-        count)))
-  (define counter (make-counter))
-  (display "闭包计数器: ")
-  (display (counter)) (display " ")
-  (display (counter)) (display " ")
-  (display (counter))
-  (newline)
+  (let ([counter (make-counter)])
+    (display "闭包计数器: ")
+    (display (counter)) (display " ")
+    (display (counter)) (display " ")
+    (display (counter))
+    (newline))
   
   (newline))
 
@@ -110,57 +115,55 @@
 (define (demonstrate-list-operations)
   (display "=== 列表操作示例 ===\n")
   
-  (define lst '(1 2 3 4 5))
-  
-  (display "原始列表: ") (display lst) (newline)
-  
-  (display "car (第一个元素): ") (display (car lst)) (newline)
-  (display "cdr (剩余元素): ") (display (cdr lst)) (newline)
-  (display "length (长度): ") (display (length lst)) (newline)
-  (display "reverse (反转): ") (display (reverse lst)) (newline)
-  
-  (display "map (映射): ")
-  (display (map (lambda (x) (* x x)) lst))
-  (newline)
-  
-  (display "filter (过滤): ")
-  (display (filter even? lst))
-  (newline)
-  
-  (display "fold-left (左折叠): ")
-  (display (fold-left + 0 lst))
-  (newline)
+  (let ([lst '(1 2 3 4 5)])
+    (display "原始列表: ") (display lst) (newline)
+    
+    (display "car (第一个元素): ") (display (car lst)) (newline)
+    (display "cdr (剩余元素): ") (display (cdr lst)) (newline)
+    (display "length (长度): ") (display (length lst)) (newline)
+    (display "reverse (反转): ") (display (reverse lst)) (newline)
+    
+    (display "map (映射): ")
+    (display (map (lambda (x) (* x x)) lst))
+    (newline)
+    
+    (display "filter (过滤): ")
+    (display (filter even? lst))
+    (newline)
+    
+    (display "fold-left (左折叠): ")
+    (display (fold-left + 0 lst))
+    (newline))
   
   (newline))
+
+;; Helper functions for higher-order examples
+(define (compose f g)
+  (lambda (x) (f (g x))))
+
+(define (curry f)
+  (lambda (x)
+    (lambda (y)
+      (f x y))))
 
 ;; 5. 高阶函数示例
 (define (demonstrate-higher-order-functions)
   (display "=== 高阶函数示例 ===\n")
   
   ;; compose
-  (define (compose f g)
-    (lambda (x) (f (g x))))
-  
-  (define add1 (lambda (x) (+ x 1)))
-  (define double (lambda (x) (* x 2)))
-  (define add1-then-double (compose double add1))
-  
-  (display "组合函数 ((compose double add1) 5): ")
-  (display (add1-then-double 5))
-  (newline)
+  (let* ([add1 (lambda (x) (+ x 1))]
+         [double (lambda (x) (* x 2))]
+         [add1-then-double (compose double add1)])
+    (display "组合函数 ((compose double add1) 5): ")
+    (display (add1-then-double 5))
+    (newline))
   
   ;; curry
-  (define (curry f)
-    (lambda (x)
-      (lambda (y)
-        (f x y))))
-  
-  (define curried-add (curry +))
-  (define add5 (curried-add 5))
-  
-  (display "柯里化 ((curry +) 5 3): ")
-  (display (add5 3))
-  (newline)
+  (let* ([curried-add (curry +)]
+         [add5 (curried-add 5)])
+    (display "柯里化 ((curry +) 5 3): ")
+    (display (add5 3))
+    (newline))
   
   (newline))
 
