@@ -1,12 +1,12 @@
-# Chez Scheme vs 其他语言对比
+* Chez Scheme vs 其他语言对比
 
 本文档帮助来自其他编程语言背景的开发者快速理解 Chez Scheme 的语法和概念。
 
-## Python vs Chez Scheme
+** Python vs Chez Scheme
 
-### 基本语法
+*** 基本语法
 
-```python
+#+begin_src python
 # Python
 x = 10
 y = 20
@@ -17,9 +17,9 @@ def square(x):
 
 numbers = [1, 2, 3, 4, 5]
 squares = [x**2 for x in numbers]
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme
 (define x 10)
 (define y 20)
@@ -30,11 +30,11 @@ squares = [x**2 for x in numbers]
 
 (define numbers '(1 2 3 4 5))
 (define squares (map (lambda (x) (* x x)) numbers))
-```
+#+end_src
 
-### 控制流
+*** 控制流
 
-```python
+#+begin_src python
 # Python
 if x > 0:
     print("positive")
@@ -49,9 +49,9 @@ for i in range(10):
 while condition:
     # do something
     pass
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme
 (cond
   [(> x 0) (display "positive")]
@@ -66,11 +66,11 @@ while condition:
   (when condition
     ;; do something
     (loop)))
-```
+#+end_src
 
-### 函数式编程
+*** 函数式编程
 
-```python
+#+begin_src python
 # Python
 from functools import reduce
 
@@ -82,9 +82,9 @@ result = list(filter(lambda x: x > 0, [-1, 0, 1, 2]))
 
 # Reduce
 result = reduce(lambda x, y: x + y, [1, 2, 3, 4], 0)
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme
 ;; Map
 (define result (map (lambda (x) (* x 2)) '(1 2 3)))
@@ -94,15 +94,14 @@ result = reduce(lambda x, y: x + y, [1, 2, 3, 4], 0)
 
 ;; Reduce (fold)
 (define result (fold-left + 0 '(1 2 3 4)))
-```
+#+end_src
 
----
 
-## JavaScript vs Chez Scheme
+** JavaScript vs Chez Scheme
 
-### 基本语法
+*** 基本语法
 
-```javascript
+#+begin_src javascript
 // JavaScript
 const x = 10;
 let y = 20;
@@ -114,9 +113,9 @@ function square(x) {
 
 const numbers = [1, 2, 3, 4, 5];
 const squares = numbers.map(x => x ** 2);
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme
 (define x 10)
 (define y 20)
@@ -127,11 +126,11 @@ const squares = numbers.map(x => x ** 2);
 
 (define numbers '(1 2 3 4 5))
 (define squares (map (lambda (x) (* x x)) numbers))
-```
+#+end_src
 
-### 闭包
+*** 闭包
 
-```javascript
+#+begin_src javascript
 // JavaScript
 function makeCounter() {
     let count = 0;
@@ -144,9 +143,9 @@ function makeCounter() {
 const counter = makeCounter();
 console.log(counter()); // 1
 console.log(counter()); // 2
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme
 (define (make-counter)
   (let ([count 0])
@@ -157,11 +156,11 @@ console.log(counter()); // 2
 (define counter (make-counter))
 (counter)  ; => 1
 (counter)  ; => 2
-```
+#+end_src
 
-### Promise/异步 vs Continuation
+*** Promise/异步 vs Continuation
 
-```javascript
+#+begin_src javascript
 // JavaScript - Promise
 function fetchData() {
     return new Promise((resolve, reject) => {
@@ -173,9 +172,9 @@ function fetchData() {
 fetchData()
     .then(data => process(data))
     .catch(error => handleError(error));
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme - Continuation
 (define (fetch-data return)
   (call/cc
@@ -187,15 +186,14 @@ fetchData()
  (lambda (k)
    (let ([data (fetch-data k)])
      (process data))))
-```
+#+end_src
 
----
 
-## Java vs Chez Scheme
+** Java vs Chez Scheme
 
-### 类和对象 vs 记录
+*** 类和对象 vs 记录
 
-```java
+#+begin_src java
 // Java
 public class Person {
     private String name;
@@ -217,9 +215,9 @@ public class Person {
 
 Person p = new Person("Alice", 30);
 System.out.println(p.getName());
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme
 (define-record-type person
   (fields name age)
@@ -230,11 +228,11 @@ System.out.println(p.getName());
 
 (define p (make-person "Alice" 30))
 (person-name p)  ; => "Alice"
-```
+#+end_src
 
-### 接口 vs 泛型函数
+*** 接口 vs 泛型函数
 
-```java
+#+begin_src java
 // Java
 interface Drawable {
     void draw();
@@ -251,9 +249,9 @@ class Square implements Drawable {
         System.out.println("Drawing square");
     }
 }
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme - 多态通过记录类型
 (define-record-type shape
   (fields draw-proc)
@@ -272,15 +270,14 @@ class Square implements Drawable {
 (define square 
   (make-shape 
    (lambda () (display "Drawing square"))))
-```
+#+end_src
 
----
 
-## C++ vs Chez Scheme
+** C++ vs Chez Scheme
 
-### 模板 vs 宏
+*** 模板 vs 宏
 
-```cpp
+#+begin_src cpp
 // C++ - 模板
 template<typename T>
 T max(T a, T b) {
@@ -288,9 +285,9 @@ T max(T a, T b) {
 }
 
 int result = max(10, 20);
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme - 泛型函数
 (define (max a b)
   (if (> a b) a b))
@@ -304,42 +301,41 @@ int result = max(10, 20);
      (let ([temp-a a]
            [temp-b b])
        (if (> temp-a temp-b) temp-a temp-b))]))
-```
+#+end_src
 
-### RAII vs with-* 模式
+*** RAII vs with-* 模式
 
-```cpp
+#+begin_src cpp
 // C++ - RAII
 {
     std::ifstream file("data.txt");
     // file automatically closed when out of scope
 }
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme - call-with-*
 (call-with-input-file "data.txt"
   (lambda (port)
     ;; port automatically closed after
     (get-line port)))
-```
+#+end_src
 
----
 
-## Haskell vs Chez Scheme
+** Haskell vs Chez Scheme
 
-### 类型系统
+*** 类型系统
 
-```haskell
+#+begin_src haskell
 -- Haskell - 静态类型
 factorial :: Int -> Int
 factorial 0 = 1
 factorial n = n * factorial (n - 1)
 
 data Maybe a = Nothing | Just a
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme - 动态类型
 (define (factorial n)
   (if (<= n 1)
@@ -351,17 +347,17 @@ data Maybe a = Nothing | Just a
   (if (= b 0)
       #f
       (/ a b)))
-```
+#+end_src
 
-### 惰性求值
+*** 惰性求值
 
-```haskell
+#+begin_src haskell
 -- Haskell - 默认惰性
 ones = 1 : ones
 take 5 ones  -- [1,1,1,1,1]
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme - 显式惰性
 (define-syntax delay
   (syntax-rules ()
@@ -382,24 +378,23 @@ take 5 ones  -- [1,1,1,1,1]
       '()
       (cons (car stream)
             (stream-take (- n 1) (force (cdr stream))))))
-```
+#+end_src
 
----
 
-## Ruby vs Chez Scheme
+** Ruby vs Chez Scheme
 
-### 代码块 vs Lambda
+*** 代码块 vs Lambda
 
-```ruby
+#+begin_src ruby
 # Ruby
 [1, 2, 3].each do |x|
   puts x
 end
 
 result = [1, 2, 3].map { |x| x * 2 }
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme
 (for-each
  (lambda (x)
@@ -409,20 +404,20 @@ result = [1, 2, 3].map { |x| x * 2 }
 
 (define result
   (map (lambda (x) (* x 2)) '(1 2 3)))
-```
+#+end_src
 
-### 元编程
+*** 元编程
 
-```ruby
+#+begin_src ruby
 # Ruby - method_missing
 class DynamicHandler
   def method_missing(method, *args)
     puts "Called: #{method}"
   end
 end
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme - 宏
 (define-syntax define-dynamic-handler
   (syntax-rules ()
@@ -432,22 +427,21 @@ end
          (display "Called: ")
          (display method)
          (newline)))]))
-```
+#+end_src
 
----
 
-## Common Lisp vs Chez Scheme
+** Common Lisp vs Chez Scheme
 
-### 宏系统
+*** 宏系统
 
-```lisp
+#+begin_src lisp
 ;; Common Lisp - defmacro
 (defmacro when (test &rest body)
   `(if ,test
        (progn ,@body)))
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme - syntax-rules (卫生宏)
 (define-syntax when
   (syntax-rules ()
@@ -460,41 +454,40 @@ end
     (syntax-case x ()
       [(_ test body ...)
        #'(if test (begin body ...))])))
-```
+#+end_src
 
-### 包系统 vs 库系统
+*** 包系统 vs 库系统
 
-```lisp
+#+begin_src lisp
 ;; Common Lisp
 (defpackage :myapp
   (:use :cl)
   (:export :main))
 
 (in-package :myapp)
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme
 (library (myapp)
   (export main)
   (import (chezscheme))
   
   ...)
-```
+#+end_src
 
----
 
-## Clojure vs Chez Scheme
+** Clojure vs Chez Scheme
 
-### 不可变数据结构
+*** 不可变数据结构
 
-```clojure
+#+begin_src clojure
 ;; Clojure - 默认不可变
 (def v [1 2 3])
 (def v2 (conj v 4))  ; v 不变，v2 是新向量
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme - 可变/不可变混合
 ;; 列表默认不可变
 (define lst '(1 2 3))
@@ -503,18 +496,18 @@ end
 ;; 向量可变
 (define vec (vector 1 2 3))
 (vector-set! vec 0 10)  ; vec 被修改
-```
+#+end_src
 
-### 并发原语
+*** 并发原语
 
-```clojure
+#+begin_src clojure
 ;; Clojure - atom
 (def counter (atom 0))
 (swap! counter inc)
 @counter  ; => 1
-```
+#+end_src
 
-```scheme
+#+begin_src scheme
 ;; Chez Scheme - 需要手动实现
 (define counter 0)
 (define counter-mutex (make-mutex))
@@ -522,11 +515,10 @@ end
 (define (inc-counter!)
   (with-mutex counter-mutex
     (set! counter (+ counter 1))))
-```
+#+end_src
 
----
 
-## 语言特性对比表
+** 语言特性对比表
 
 | 特性 | Python | JavaScript | Java | C++ | Haskell | Ruby | Common Lisp | Clojure | Chez Scheme |
 |------|--------|------------|------|-----|---------|------|-------------|---------|-------------|
@@ -539,44 +531,42 @@ end
 | 并发 | 线程/异步 | 异步 | 线程 | 线程 | STM | 线程 | 线程 | STM | 线程 |
 | 性能 | 中等 | 快 | 快 | 很快 | 快 | 中等 | 快 | 快 | 很快 |
 
----
 
-## 关键概念映射
+** 关键概念映射
 
-### 循环
-- **Python**: `for`, `while`
-- **JavaScript**: `for`, `while`, `forEach`
-- **Java**: `for`, `while`, `Stream.forEach`
-- **Scheme**: 尾递归, `do`, `for-each`
+*** 循环
+- *Python*: ~for~, ~while~
+- *JavaScript*: ~for~, ~while~, ~forEach~
+- *Java*: ~for~, ~while~, ~Stream.forEach~
+- *Scheme*: 尾递归, ~do~, ~for-each~
 
-### 异常处理
-- **Python**: `try`/`except`
-- **JavaScript**: `try`/`catch`
-- **Java**: `try`/`catch`
-- **Scheme**: `guard`
+*** 异常处理
+- *Python*: ~try~/~except~
+- *JavaScript*: ~try~/~catch~
+- *Java*: ~try~/~catch~
+- *Scheme*: ~guard~
 
-### 模块/包
-- **Python**: `import`, packages
-- **JavaScript**: `import`/`export`, modules
-- **Java**: `import`, packages
-- **Scheme**: `(import ...)`, libraries
+*** 模块/包
+- *Python*: ~import~, packages
+- *JavaScript*: ~import~/~export~, modules
+- *Java*: ~import~, packages
+- *Scheme*: ~(import ...)~, libraries
 
-### 函数定义
-- **Python**: `def func():`
-- **JavaScript**: `function func()`, `() => {}`
-- **Java**: `type func() {}`
-- **Scheme**: `(define (func) ...)`
+*** 函数定义
+- *Python*: ~def func():~
+- *JavaScript*: ~function func()~, ~() => {}~
+- *Java*: ~type func() {}~
+- *Scheme*: ~(define (func) ...)~
 
----
 
-## 总结
+** 总结
 
 Chez Scheme 的独特之处：
 
-1. **卫生宏系统**: 比其他 Lisp 更安全的宏
-2. **保证的尾调用优化**: 真正的函数式编程
-3. **一级 Continuation**: 强大的控制流抽象
-4. **高性能**: 接近 C 的性能
-5. **完整的 R6RS 支持**: 标准化的语言
+1. *卫生宏系统*: 比其他 Lisp 更安全的宏
+2. *保证的尾调用优化*: 真正的函数式编程
+3. *一级 Continuation*: 强大的控制流抽象
+4. *高性能*: 接近 C 的性能
+5. *完整的 R6RS 支持*: 标准化的语言
 
 从其他语言迁移到 Chez Scheme 的关键是理解函数式编程范式和 Lisp 的括号语法。一旦掌握，你会发现它是一个强大而优雅的编程工具。

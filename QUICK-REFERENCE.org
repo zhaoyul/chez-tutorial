@@ -1,12 +1,12 @@
-# Chez Scheme 快速参考
+* Chez Scheme 快速参考
 
 这是一份 Chez Scheme 的快速参考卡片，供有经验的程序员快速查阅。
 
-## 基本语法
+** 基本语法
 
-### 数据类型
+*** 数据类型
 
-```scheme
+#+begin_src scheme
 ;; 数值
 42                  ; 整数
 1/3                 ; 有理数
@@ -34,11 +34,11 @@
 ;; 布尔值
 #t                  ; 真
 #f                  ; 假
-```
+#+end_src
 
-### 变量定义
+*** 变量定义
 
-```scheme
+#+begin_src scheme
 (define x 10)                    ; 全局变量
 (define (square x) (* x x))      ; 函数定义
 (define add (lambda (x y) (+ x y)))  ; lambda 形式
@@ -54,11 +54,11 @@
                      1
                      (* n (fact (- n 1)))))])
   (fact 5))
-```
+#+end_src
 
-### 控制流
+*** 控制流
 
-```scheme
+#+begin_src scheme
 ;; 条件
 (if test then-expr else-expr)
 
@@ -84,13 +84,13 @@
   (when (< i 10)
     (display i)
     (loop (+ i 1))))
-```
+#+end_src
 
-## 函数
+** 函数
 
-### 定义函数
+*** 定义函数
 
-```scheme
+#+begin_src scheme
 ;; 基本定义
 (define (func arg1 arg2) body)
 
@@ -103,19 +103,19 @@
   (case-lambda
     [(x) (func x 0)]
     [(x y) (+ x y)]))
-```
+#+end_src
 
-### Lambda 表达式
+*** Lambda 表达式
 
-```scheme
+#+begin_src scheme
 (lambda (x) (* x x))                  ; 单参数
 (lambda (x y) (+ x y))                ; 多参数
 (lambda args (apply + args))          ; 可变参数
-```
+#+end_src
 
-## 列表操作
+** 列表操作
 
-```scheme
+#+begin_src scheme
 ;; 构造
 (cons x lst)          ; 添加到头部
 (list x y z)          ; 创建列表
@@ -142,11 +142,11 @@
 (filter pred lst)                  ; 过滤
 (fold-left proc init lst)          ; 左折叠
 (fold-right proc init lst)         ; 右折叠
-```
+#+end_src
 
-## 字符串操作
+** 字符串操作
 
-```scheme
+#+begin_src scheme
 ;; 构造和转换
 (string char ...)                ; 从字符构造
 (make-string n char)             ; 创建指定长度
@@ -170,11 +170,11 @@
 ;; 大小写转换
 (string-upcase str)              ; 转大写
 (string-downcase str)            ; 转小写
-```
+#+end_src
 
-## 向量操作
+** 向量操作
 
-```scheme
+#+begin_src scheme
 ;; 构造
 (vector x y z)                   ; 创建向量
 (make-vector n init)             ; 创建指定长度
@@ -191,13 +191,13 @@
 ;; 遍历
 (vector-for-each proc vec1 ...)  ; 遍历向量
 (vector-map proc vec1 ...)       ; 映射向量
-```
+#+end_src
 
-## 宏系统
+** 宏系统
 
-### syntax-rules
+*** syntax-rules
 
-```scheme
+#+begin_src scheme
 (define-syntax when
   (syntax-rules ()
     [(_ test body ...)
@@ -207,11 +207,11 @@
   (syntax-rules ()
     [(_ ([var val] ...) body ...)
      ((lambda (var ...) body ...) val ...)]))
-```
+#+end_src
 
-### syntax-case
+*** syntax-case
 
-```scheme
+#+begin_src scheme
 (define-syntax swap!
   (lambda (x)
     (syntax-case x ()
@@ -219,11 +219,11 @@
        #'(let ([tmp a])
            (set! a b)
            (set! b tmp))])))
-```
+#+end_src
 
-## 记录类型
+** 记录类型
 
-```scheme
+#+begin_src scheme
 ;; 定义记录
 (define-record-type person
   (fields name age)
@@ -237,13 +237,13 @@
 (person? p)           ; => #t
 (person-name p)       ; => "Alice"
 (person-age p)        ; => 30
-```
+#+end_src
 
-## I/O 操作
+** I/O 操作
 
-### 文件 I/O
+*** 文件 I/O
 
-```scheme
+#+begin_src scheme
 ;; 读取文件
 (call-with-input-file "file.txt"
   (lambda (port)
@@ -260,11 +260,11 @@
   (lambda (port)
     (display "World" port))
   'append)
-```
+#+end_src
 
-### 端口操作
+*** 端口操作
 
-```scheme
+#+begin_src scheme
 (open-input-file filename)        ; 打开输入文件
 (open-output-file filename)       ; 打开输出文件
 (close-input-port port)           ; 关闭输入端口
@@ -279,13 +279,13 @@
 (display obj port)                ; 显示对象
 (newline port)                    ; 写入换行
 (fprintf port fmt args ...)       ; 格式化输出
-```
+#+end_src
 
-## 库系统
+** 库系统
 
-### 定义库
+*** 定义库
 
-```scheme
+#+begin_src scheme
 (library (mylib)
   (export func1 func2 var1)
   (import (chezscheme))
@@ -293,51 +293,51 @@
   (define (func1 x) ...)
   (define (func2 x y) ...)
   (define var1 42))
-```
+#+end_src
 
-### 导入库
+*** 导入库
 
-```scheme
+#+begin_src scheme
 (import (mylib))                        ; 导入全部
 (import (only (mylib) func1))           ; 只导入 func1
 (import (except (mylib) var1))          ; 排除 var1
 (import (rename (mylib) (func1 f)))     ; 重命名
 (import (prefix (mylib) ml:))           ; 添加前缀
-```
+#+end_src
 
-## 性能优化
+** 性能优化
 
-### Fixnum 操作
+*** Fixnum 操作
 
-```scheme
+#+begin_src scheme
 ;; Fixnum 算术（更快）
 fx+  fx-  fx*  fx/                ; 算术运算
 fx=?  fx<?  fx<=?  fx>?  fx>=?    ; 比较运算
 fxand  fxior  fxxor               ; 位运算
 fxsll  fxsrl                      ; 移位运算
-```
+#+end_src
 
-### Flonum 操作
+*** Flonum 操作
 
-```scheme
+#+begin_src scheme
 ;; Flonum 算术
 fl+  fl-  fl*  fl/                ; 算术运算
 fl=?  fl<?  fl<=?  fl>?  fl>=?    ; 比较运算
 flsqrt  flexp  fllog              ; 数学函数
-```
+#+end_src
 
-### 编译器优化
+*** 编译器优化
 
-```scheme
+#+begin_src scheme
 (optimize-level 0)     ; 无优化
 (optimize-level 3)     ; 最大优化
 
 (define-integrable (square x) (* x x))  ; 内联函数
-```
+#+end_src
 
-## 常用谓词
+** 常用谓词
 
-```scheme
+#+begin_src scheme
 ;; 类型检查
 number?  integer?  real?  complex?
 char?  string?  symbol?
@@ -357,11 +357,11 @@ equal?     ; 结构相等
 
 =  <  <=  >  >=                   ; 数值比较
 char=?  char<?  string=?  string<?  ; 字符/字符串比较
-```
+#+end_src
 
-## 异常处理
+** 异常处理
 
-```scheme
+#+begin_src scheme
 (guard (ex
         [(condition1? ex) handle1]
         [(condition2? ex) handle2]
@@ -370,11 +370,11 @@ char=?  char<?  string=?  string<?  ; 字符/字符串比较
 
 (raise condition)                 ; 抛出异常
 (error who message irritant ...)  ; 抛出错误
-```
+#+end_src
 
-## Continuation
+** Continuation
 
-```scheme
+#+begin_src scheme
 (call/cc (lambda (k) ...))        ; 捕获 continuation
 (call-with-current-continuation ...)  ; 同上（完整名）
 
@@ -387,11 +387,11 @@ char=?  char<?  string=?  string<?  ; 字符/字符串比较
         (when (pred x) (return x)))
       lst)
      #f)))
-```
+#+end_src
 
-## 哈希表
+** 哈希表
 
-```scheme
+#+begin_src scheme
 ;; 创建哈希表
 (make-eq-hashtable)               ; 使用 eq? 比较
 (make-eqv-hashtable)              ; 使用 eqv? 比较
@@ -405,11 +405,11 @@ char=?  char<?  string=?  string<?  ; 字符/字符串比较
 (hashtable-size ht)               ; 大小
 (hashtable-keys ht)               ; 所有键
 (hashtable-entries ht)            ; 键值对
-```
+#+end_src
 
-## 实用函数
+** 实用函数
 
-```scheme
+#+begin_src scheme
 ;; 应用和组合
 (apply proc arg ... lst)          ; 应用函数到列表
 (compose f g)                     ; 函数组合 f ∘ g
@@ -425,33 +425,33 @@ char=?  char<?  string=?  string<?  ; 字符/字符串比较
 (number->string n)  (string->number s)
 (char->integer c)  (integer->char n)
 (symbol->string sym)  (string->symbol s)
-```
+#+end_src
 
-## 调试工具
+** 调试工具
 
-```scheme
+#+begin_src scheme
 (trace proc ...)                  ; 跟踪函数调用
 (untrace proc ...)                ; 取消跟踪
 (time expr)                       ; 测量执行时间
 (debug-on-exception #t)           ; 异常时进入调试器
 (break)                          ; 设置断点
-```
+#+end_src
 
-## 常用模式
+** 常用模式
 
-### 尾递归循环
+*** 尾递归循环
 
-```scheme
+#+begin_src scheme
 (define (sum-list lst)
   (let loop ([lst lst] [acc 0])
     (if (null? lst)
         acc
         (loop (cdr lst) (+ acc (car lst))))))
-```
+#+end_src
 
-### 记忆化
+*** 记忆化
 
-```scheme
+#+begin_src scheme
 (define make-memo
   (lambda (f)
     (let ([table (make-eq-hashtable)])
@@ -460,45 +460,43 @@ char=?  char<?  string=?  string<?  ; 字符/字符串比较
             (let ([result (f x)])
               (hashtable-set! table x result)
               result))))))
-```
+#+end_src
 
-### 管道操作
+*** 管道操作
 
-```scheme
+#+begin_src scheme
 (define (pipe . funcs)
   (lambda (x)
     (fold-left (lambda (acc f) (f acc)) x funcs)))
 
 ;; 使用
 ((pipe add1 square double) 5)  ; => ((5+1)^2)*2 = 72
-```
+#+end_src
 
----
 
-## 参考资源
+** 参考资源
 
-- **官方文档**: https://cisco.github.io/ChezScheme/
-- **The Scheme Programming Language (4th Ed)**: https://www.scheme.com/tspl4/
-- **R6RS 标准**: http://www.r6rs.org/
+- *官方文档*: https://cisco.github.io/ChezScheme/
+- *The Scheme Programming Language (4th Ed)*: https://www.scheme.com/tspl4/
+- *R6RS 标准*: http://www.r6rs.org/
 
-## 命令行选项
+** 命令行选项
 
-```bash
+#+begin_src bash
 scheme                    # 启动 REPL
 scheme --script file.ss   # 运行脚本
 scheme --program file.ss  # 运行程序
 scheme -q                 # 安静模式（不显示版本）
 scheme --version          # 显示版本
 scheme --libdirs "dir1:dir2"  # 设置库搜索路径
-```
+#+end_src
 
-## 编译
+** 编译
 
-```scheme
+#+begin_src scheme
 (compile-file "program.ss")           ; 编译为 .so
 (load "program.so")                   ; 加载编译后的文件
-```
+#+end_src
 
----
 
 此快速参考涵盖了 Chez Scheme 的核心功能。更多详细信息请参阅官方文档。

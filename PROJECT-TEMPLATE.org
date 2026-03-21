@@ -1,10 +1,10 @@
-# Chez Scheme 项目模板
+* Chez Scheme 项目模板
 
 这是一个标准的 Chez Scheme 项目结构模板。
 
-## 目录结构
+** 目录结构
 
-```
+#+begin_src scheme
 my-project/
 ├── README.md           # 项目说明
 ├── LICENSE             # 许可证
@@ -19,13 +19,13 @@ my-project/
 │   └── api.md          # API 文档
 └── examples/           # 示例代码
     └── example1.ss     # 示例程序
-```
+#+end_src
 
-## 项目文件示例
+** 项目文件示例
 
-### src/mylib.sls - 库文件
+*** src/mylib.sls - 库文件
 
-```scheme
+#+begin_src scheme
 (library (mylib)
   (export 
     ;; 核心函数
@@ -101,11 +101,11 @@ my-project/
           [else (error 'list-utils "unknown operation" op)]))))
   
   ) ;; end library
-```
+#+end_src
 
-### src/main.ss - 主程序
+*** src/main.ss - 主程序
 
-```scheme
+#+begin_src scheme
 #!/usr/bin/env scheme-script
 ;; 主程序
 
@@ -174,11 +174,11 @@ my-project/
 
 ;; 运行主函数
 (main (cdr (command-line)))
-```
+#+end_src
 
-### tests/test-all.ss - 测试套件
+*** tests/test-all.ss - 测试套件
 
-```scheme
+#+begin_src scheme
 #!/usr/bin/env scheme-script
 ;; 测试套件
 
@@ -271,11 +271,11 @@ my-project/
 
 ;; 运行测试
 (exit (run-tests))
-```
+#+end_src
 
-### Makefile - 构建脚本
+*** Makefile - 构建脚本
 
-```makefile
+#+begin_src makefile
 # Chez Scheme 项目 Makefile
 
 SCHEME := scheme
@@ -336,11 +336,11 @@ help:
 	@echo "  clean   - 清理构建产物"
 	@echo "  install - 安装程序"
 	@echo "  help    - 显示此帮助信息"
-```
+#+end_src
 
-### .gitignore
+*** .gitignore
 
-```gitignore
+#+begin_src gitignore
 # 编译文件
 *.so
 *.sls.so
@@ -369,11 +369,11 @@ Thumbs.db
 
 # 测试输出
 /tmp/output.txt
-```
+#+end_src
 
-### README.md - 项目说明
+*** README.md - 项目说明
 
-```markdown
+#+begin_src markdown
 # My Project
 
 简短的项目描述。
@@ -426,23 +426,24 @@ make clean
 
 MIT License
 ```
+#+end_src
 
-## 使用项目模板
+** 使用项目模板
 
-1. **创建新项目**:
-   ```bash
+1. *创建新项目*:
+   #+begin_src bash
    mkdir my-project
    cd my-project
    # 复制模板文件
-   ```
+   #+end_src
 
-2. **修改项目信息**:
-   - 更新 `README.md` 中的项目名称和描述
-   - 修改 `src/mylib.sls` 中的库名称
-   - 调整 `src/main.ss` 中的主逻辑
+2. *修改项目信息*:
+   - 更新 ~README.md~ 中的项目名称和描述
+   - 修改 ~src/mylib.sls~ 中的库名称
+   - 调整 ~src/main.ss~ 中的主逻辑
 
-3. **开发和测试**:
-   ```bash
+3. *开发和测试*:
+   #+begin_src bash
    # 编写代码
    vim src/mylib.sls
    
@@ -451,45 +452,45 @@ MIT License
    
    # 运行测试
    make test
-   ```
+   #+end_src
 
-4. **构建和运行**:
-   ```bash
+4. *构建和运行*:
+   #+begin_src bash
    # 编译
    make build
    
    # 运行
    make run
-   ```
+   #+end_src
 
-## 最佳实践
+** 最佳实践
 
-1. **代码组织**:
-   - 将可重用代码放在库中 (`src/*.sls`)
-   - 主程序保持简洁 (`src/main.ss`)
+1. *代码组织*:
+   - 将可重用代码放在库中 (~src/*.sls~)
+   - 主程序保持简洁 (~src/main.ss~)
    - 为每个模块编写测试
 
-2. **错误处理**:
-   - 使用 `guard` 处理异常
+2. *错误处理*:
+   - 使用 ~guard~ 处理异常
    - 提供有意义的错误消息
    - 验证所有输入
 
-3. **性能**:
+3. *性能*:
    - 使用尾递归
    - 考虑使用 fixnum/flonum 操作
    - 编译关键代码路径
 
-4. **文档**:
+4. *文档*:
    - 为公共 API 编写文档字符串
    - 保持 README 更新
    - 提供使用示例
 
-5. **测试**:
+5. *测试*:
    - 为核心功能编写单元测试
    - 测试边界情况
    - 使用 CI/CD 自动化测试
 
-## 示例项目
+** 示例项目
 
 参考以下真实项目的结构：
 

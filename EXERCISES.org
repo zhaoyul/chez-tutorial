@@ -1,25 +1,23 @@
-# Chez Scheme 练习题
+* Chez Scheme 练习题
 
 这些练习题旨在帮助你掌握 Chez Scheme 的核心概念和高级特性。每个练习都包含问题描述、提示和参考答案。
 
-## 基础练习
+** 基础练习
 
-### 练习 1: 列表操作
+*** 练习 1: 列表操作
 
-**问题**: 实现一个函数 `flatten`，将嵌套列表展平为一维列表。
+*问题*: 实现一个函数 ~flatten~，将嵌套列表展平为一维列表。
 
-```scheme
+#+begin_src scheme
 ;; 示例
 (flatten '(1 (2 3) (4 (5 6))))  ; => (1 2 3 4 5 6)
 (flatten '((1) ((2)) (((3)))))  ; => (1 2 3)
-```
+#+end_src
 
-**提示**: 使用递归，检查元素是否为列表。
+*提示*: 使用递归，检查元素是否为列表。
 
-<details>
-<summary>查看答案</summary>
-
-```scheme
+:查看答案:
+#+begin_src scheme
 (define (flatten lst)
   (cond
     [(null? lst) '()]
@@ -37,26 +35,23 @@
        (loop (cdr lst) (loop (car lst) acc))]
       [else
        (loop (cdr lst) (cons (car lst) acc))])))
-```
-</details>
+#+end_src
+:END:
 
----
 
-### 练习 2: 高阶函数
+*** 练习 2: 高阶函数
 
-**问题**: 实现 `compose` 和 `curry` 函数。
+*问题*: 实现 ~compose~ 和 ~curry~ 函数。
 
-```scheme
+#+begin_src scheme
 ;; compose: (compose f g) 返回 f ∘ g
 ;; curry: 将二元函数转换为柯里化形式
-```
+#+end_src
 
-**提示**: `compose` 返回一个新函数，`curry` 返回嵌套的 lambda。
+*提示*: ~compose~ 返回一个新函数，~curry~ 返回嵌套的 lambda。
 
-<details>
-<summary>查看答案</summary>
-
-```scheme
+:查看答案:
+#+begin_src scheme
 ;; compose
 (define (compose f g)
   (lambda (x) (f (g x))))
@@ -81,21 +76,18 @@
 
 (define curried-add (curry +))
 ((curried-add 3) 4)  ; => 7
-```
-</details>
+#+end_src
+:END:
 
----
 
-### 练习 3: 快速排序
+*** 练习 3: 快速排序
 
-**问题**: 实现快速排序算法。
+*问题*: 实现快速排序算法。
 
-**提示**: 选择枢轴，分区，递归排序。
+*提示*: 选择枢轴，分区，递归排序。
 
-<details>
-<summary>查看答案</summary>
-
-```scheme
+:查看答案:
+#+begin_src scheme
 (define (quicksort lst)
   (if (null? lst)
       '()
@@ -119,28 +111,25 @@
 
 ;; 测试
 (quicksort '(3 7 1 9 2 8 4 6 5))  ; => (1 2 3 4 5 6 7 8 9)
-```
-</details>
+#+end_src
+:END:
 
----
 
-## 宏练习
+** 宏练习
 
-### 练习 4: 循环宏
+*** 练习 4: 循环宏
 
-**问题**: 实现一个 `while` 宏。
+*问题*: 实现一个 ~while~ 宏。
 
-```scheme
+#+begin_src scheme
 (while condition
   body ...)
-```
+#+end_src
 
-**提示**: 使用 `syntax-rules`，转换为 `let` 循环。
+*提示*: 使用 ~syntax-rules~，转换为 ~let~ 循环。
 
-<details>
-<summary>查看答案</summary>
-
-```scheme
+:查看答案:
+#+begin_src scheme
 (define-syntax while
   (syntax-rules ()
     [(_ condition body ...)
@@ -156,28 +145,25 @@
     (display " ")
     (set! i (+ i 1))))
 ;; 输出: 0 1 2 3 4
-```
-</details>
+#+end_src
+:END:
 
----
 
-### 练习 5: 模式匹配宏
+*** 练习 5: 模式匹配宏
 
-**问题**: 实现一个简化的 `match` 宏，支持常量和变量模式。
+*问题*: 实现一个简化的 ~match~ 宏，支持常量和变量模式。
 
-```scheme
+#+begin_src scheme
 (match value
   [0 'zero]
   [1 'one]
   [x x])
-```
+#+end_src
 
-**提示**: 使用 `syntax-case`。
+*提示*: 使用 ~syntax-case~。
 
-<details>
-<summary>查看答案</summary>
-
-```scheme
+:查看答案:
+#+begin_src scheme
 (define-syntax match
   (syntax-rules ()
     [(_ val) (error 'match "no matching clause")]
@@ -195,23 +181,20 @@
   [0 'zero]
   [1 'one]
   [x (list 'other x)])  ; => (other 5)
-```
-</details>
+#+end_src
+:END:
 
----
 
-## 记录类型练习
+** 记录类型练习
 
-### 练习 6: 二叉树
+*** 练习 6: 二叉树
 
-**问题**: 使用记录类型实现二叉树，并实现插入、查找和遍历操作。
+*问题*: 使用记录类型实现二叉树，并实现插入、查找和遍历操作。
 
-**提示**: 定义 `tree-node` 记录，实现 BST 算法。
+*提示*: 定义 ~tree-node~ 记录，实现 BST 算法。
 
-<details>
-<summary>查看答案</summary>
-
-```scheme
+:查看答案:
+#+begin_src scheme
 (define-record-type tree-node
   (fields value (mutable left) (mutable right))
   (protocol
@@ -260,19 +243,16 @@
 (inorder tree)  ; => (1 3 5 7 9)
 (search tree 7)  ; => #t
 (search tree 4)  ; => #f
-```
-</details>
+#+end_src
+:END:
 
----
 
-### 练习 7: 栈和队列
+*** 练习 7: 栈和队列
 
-**问题**: 使用记录类型实现栈和队列数据结构。
+*问题*: 使用记录类型实现栈和队列数据结构。
 
-<details>
-<summary>查看答案</summary>
-
-```scheme
+:查看答案:
+#+begin_src scheme
 ;; 栈
 (define-record-type stack
   (fields (mutable items))
@@ -328,21 +308,18 @@
 (enqueue! q 2)
 (enqueue! q 3)
 (dequeue! q)  ; => 1
-```
-</details>
+#+end_src
+:END:
 
----
 
-## Continuation 练习
+** Continuation 练习
 
-### 练习 8: 生成器
+*** 练习 8: 生成器
 
-**问题**: 使用 `call/cc` 实现一个生成从 start 到 end 的整数生成器。
+*问题*: 使用 ~call/cc~ 实现一个生成从 start 到 end 的整数生成器。
 
-<details>
-<summary>查看答案</summary>
-
-```scheme
+:查看答案:
+#+begin_src scheme
 (define (make-range-generator start end)
   (let ([current start]
         [return #f])
@@ -364,19 +341,16 @@
 (gen)  ; => 3
 (gen)  ; => 4
 (gen)  ; => done
-```
-</details>
+#+end_src
+:END:
 
----
 
-### 练习 9: 协程
+*** 练习 9: 协程
 
-**问题**: 实现两个协程，相互传递控制权。
+*问题*: 实现两个协程，相互传递控制权。
 
-<details>
-<summary>查看答案</summary>
-
-```scheme
+:查看答案:
+#+begin_src scheme
 (define (make-coroutine proc)
   (let ([return #f]
         [resume #f])
@@ -421,26 +395,23 @@
     (unless (eq? val 'done)
       (consumer val)
       (loop))))
-```
-</details>
+#+end_src
+:END:
 
----
 
-## 性能优化练习
+** 性能优化练习
 
-### 练习 10: 斐波那契优化
+*** 练习 10: 斐波那契优化
 
-**问题**: 实现三个版本的斐波那契函数：
+*问题*: 实现三个版本的斐波那契函数：
 1. 朴素递归
 2. 记忆化
 3. 迭代（尾递归）
 
 比较它们的性能。
 
-<details>
-<summary>查看答案</summary>
-
-```scheme
+:查看答案:
+#+begin_src scheme
 ;; 1. 朴素递归（慢）
 (define (fib-naive n)
   (if (<= n 1)
@@ -489,28 +460,25 @@
 (display "fib(30) - 迭代: ")
 (display (benchmark fib-iter 30 10000))
 (display " 秒\n")
-```
-</details>
+#+end_src
+:END:
 
----
 
-## 项目练习
+** 项目练习
 
-### 练习 11: 简单的解释器
+*** 练习 11: 简单的解释器
 
-**问题**: 实现一个简单的算术表达式解释器，支持 `+`, `-`, `*`, `/` 和括号。
+*问题*: 实现一个简单的算术表达式解释器，支持 ~+~, ~-~, ~*~, ~/~ 和括号。
 
-**示例**:
-```scheme
+*示例*:
+#+begin_src scheme
 (eval-expr '(+ 1 2))           ; => 3
 (eval-expr '(* (+ 1 2) 3))     ; => 9
 (eval-expr '(/ (- 10 2) 2))    ; => 4
-```
+#+end_src
 
-<details>
-<summary>查看答案</summary>
-
-```scheme
+:查看答案:
+#+begin_src scheme
 (define (eval-expr expr)
   (cond
     [(number? expr) expr]
@@ -530,19 +498,16 @@
 (eval-expr '(* (+ 1 2) 3))        ; => 9
 (eval-expr '(/ (- 10 2) 2))       ; => 4
 (eval-expr '(+ (* 2 3) (- 5 1)))  ; => 10
-```
-</details>
+#+end_src
+:END:
 
----
 
-### 练习 12: 简单的数据库
+*** 练习 12: 简单的数据库
 
-**问题**: 实现一个简单的内存数据库，支持插入、查询和更新操作。
+*问题*: 实现一个简单的内存数据库，支持插入、查询和更新操作。
 
-<details>
-<summary>查看答案</summary>
-
-```scheme
+:查看答案:
+#+begin_src scheme
 (define-record-type database
   (fields (mutable tables))
   (protocol
@@ -588,21 +553,18 @@
 (select db 'users 
         (lambda (user) (> (cdr (assoc 'age user)) 28)))
 ;; => (((name . "Charlie") (age . 35)) ((name . "Alice") (age . 30)))
-```
-</details>
+#+end_src
+:END:
 
----
 
-## 挑战练习
+** 挑战练习
 
-### 练习 13: Y 组合子
+*** 练习 13: Y 组合子
 
-**问题**: 实现 Y 组合子，并用它定义阶乘函数。
+*问题*: 实现 Y 组合子，并用它定义阶乘函数。
 
-<details>
-<summary>查看答案</summary>
-
-```scheme
+:查看答案:
+#+begin_src scheme
 ;; Y 组合子（不能直接在 Scheme 中工作，因为立即求值）
 ;; 使用 Z 组合子（适用于应用序）
 (define Z
@@ -634,19 +596,16 @@
              (* n (f (- n 1))))))))
 
 (fact2 6)  ; => 720
-```
-</details>
+#+end_src
+:END:
 
----
 
-### 练习 14: 惰性求值
+*** 练习 14: 惰性求值
 
-**问题**: 实现惰性求值的无限流。
+*问题*: 实现惰性求值的无限流。
 
-<details>
-<summary>查看答案</summary>
-
-```scheme
+:查看答案:
+#+begin_src scheme
 ;; 延迟和强制
 (define-syntax delay
   (syntax-rules ()
@@ -703,20 +662,19 @@
 
 (stream-take 10 fibs)
 ;; => (0 1 1 2 3 5 8 13 21 34)
-```
-</details>
+#+end_src
+:END:
 
----
 
-## 总结
+** 总结
 
 这些练习涵盖了 Chez Scheme 的主要概念：
 
-1. **基础**: 列表操作、高阶函数、递归
-2. **宏**: syntax-rules 和 syntax-case
-3. **记录**: 数据结构设计
-4. **Continuation**: call/cc 的应用
-5. **性能**: 优化技巧
-6. **项目**: 实际应用
+1. *基础*: 列表操作、高阶函数、递归
+2. *宏*: syntax-rules 和 syntax-case
+3. *记录*: 数据结构设计
+4. *Continuation*: call/cc 的应用
+5. *性能*: 优化技巧
+6. *项目*: 实际应用
 
 建议按顺序完成这些练习，并尝试自己实现答案后再查看参考答案。祝学习愉快！
