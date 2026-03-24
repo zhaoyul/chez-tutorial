@@ -65,26 +65,26 @@
 ;; 测试宏
 (define (test-macros)
   (display "=== 宏系统示例 ===\n\n")
-  
+
   ;; 测试 when
   (display "1. when 宏:\n")
   (when (> 5 3)
     (display "  5 大于 3\n"))
-  
+
   ;; 测试 my-let
   (display "\n2. my-let 宏:\n")
   (my-let ([x 10] [y 20])
     (display "  x = ") (display x) (newline)
     (display "  y = ") (display y) (newline)
     (display "  x + y = ") (display (+ x y)) (newline))
-  
+
   ;; 测试 my-and
   (display "\n3. my-and 宏:\n")
   (display "  (my-and #t #t #t): ")
   (display (my-and #t #t #t)) (newline)
   (display "  (my-and #t #f #t): ")
   (display (my-and #t #f #t)) (newline)
-  
+
   ;; 测试 my-cond
   (display "\n4. my-cond 宏:\n")
   (let ([x 10])
@@ -96,24 +96,24 @@
        [(> x 0) "正数"]
        [else "未知"]))
     (newline))
-  
+
   ;; 测试 dotimes
   (display "\n5. dotimes 宏:\n")
   (display "  打印 0 到 4:\n  ")
   (dotimes (i 5)
     (display i) (display " "))
   (newline)
-  
+
   ;; 测试 assert
   (display "\n6. assert 宏:\n")
   (assert (= (+ 1 1) 2))
   (display "  断言 (= (+ 1 1) 2) 通过\n")
-  
+
   ;; 测试 debug
   (display "\n7. debug 宏:\n")
   (display "  ")
   (debug (+ 10 20 30))
-  
+
   (newline))
 
 ;; 运行测试
@@ -163,7 +163,7 @@
 
 (define (test-advanced-macros)
   (display "=== 高级宏示例 ===\n\n")
-  
+
   ;; 测试 match
   (display "1. match 宏:\n")
   (let ([x 42])
@@ -174,7 +174,7 @@
       [n (positive? n) (display "正数")]
       [n (display "其他")])
     (newline))
-  
+
   (newline))
 
 (test-advanced-macros)

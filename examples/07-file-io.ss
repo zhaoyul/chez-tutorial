@@ -4,7 +4,7 @@
 ;; 1. 基本文件读写
 (define (demonstrate-basic-io)
   (display "=== 基本文件 I/O ===\n\n")
-  
+
   ;; 写入文件
   (display "1. 写入文件:\n")
   (let ([filename "/tmp/test-output.txt"])
@@ -15,7 +15,7 @@
         (display "Line 3\n" port))
       'replace)
     (display "  已写入文件: ") (display filename) (newline))
-  
+
   ;; 读取整个文件
   (display "\n2. 读取文件内容:\n")
   (let ([content (call-with-input-file "/tmp/test-output.txt"
@@ -30,13 +30,13 @@
     (for-each (lambda (line)
                 (display "    ") (display line) (newline))
               content))
-  
+
   (newline))
 
 ;; 2. 逐行处理文件
 (define (demonstrate-line-processing)
   (display "=== 逐行处理文件 ===\n\n")
-  
+
   ;; 创建测试文件
   (call-with-output-file "/tmp/numbers.txt"
     (lambda (port)
@@ -44,7 +44,7 @@
           ((> i 10))
         (fprintf port "Line ~a: ~a\n" i (* i i))))
     'replace)
-  
+
   (display "处理数字文件:\n")
   (call-with-input-file "/tmp/numbers.txt"
     (lambda (port)
@@ -56,7 +56,7 @@
                 (display "数字总和: ") (display sum) (newline))
               (loop (+ line-num 1)
                     (+ sum (extract-number line))))))))
-  
+
   (newline))
 
 ;; 辅助函数：从字符串中提取数字
@@ -108,7 +108,7 @@
 ;; 3. 二进制文件处理
 (define (demonstrate-binary-io)
   (display "=== 二进制文件 I/O ===\n\n")
-  
+
   ;; 写入二进制数据
   (display "1. 写入二进制文件:\n")
   (let ([filename "/tmp/binary-data.bin"])
@@ -121,7 +121,7 @@
           (put-bytevector port bv)))
       'replace)
     (display "  已写入二进制文件\n"))
-  
+
   ;; 读取二进制数据
   (display "\n2. 读取二进制文件:\n")
   (call-with-input-file "/tmp/binary-data.bin"
@@ -134,39 +134,39 @@
           (display (bytevector-u8-ref bv i))
           (display " "))
         (newline))))
-  
+
   (newline))
 
 ;; 4. 文件操作
 (define (demonstrate-file-operations)
   (display "=== 文件系统操作 ===\n\n")
-  
+
   ;; 检查文件是否存在
   (display "1. 检查文件存在性:\n")
   (let ([file "/tmp/test-output.txt"])
     (display "  /tmp/test-output.txt 存在? ")
     (display (file-exists? file))
     (newline))
-  
+
   ;; 获取文件信息
   (display "\n2. 文件信息:\n")
   (when (file-exists? "/tmp/test-output.txt")
     (display "  文件可读? ")
     (display (file-exists? "/tmp/test-output.txt"))
     (newline))
-  
+
   (newline))
 
 ;; 5. 格式化输出
 (define (demonstrate-formatted-output)
   (display "=== 格式化输出 ===\n\n")
-  
+
   (display "1. 使用 format:\n")
   (display (format "  整数: ~a\n" 42))
   (display (format "  浮点: ~a\n" 3.14159))
   (display (format "  字符串: ~a\n" "Hello"))
   (display (format "  布尔: ~a\n" #t))
-  
+
   (display "\n2. 使用 fprintf 写入文件:\n")
   (call-with-output-file "/tmp/formatted.txt"
     (lambda (port)
@@ -175,7 +175,7 @@
       (fprintf port "分数: ~a\n" 95.5))
     'replace)
   (display "  已写入格式化数据到文件\n")
-  
+
   ;; 读取并显示
   (display "\n3. 读取格式化文件:\n")
   (call-with-input-file "/tmp/formatted.txt"
@@ -185,13 +185,13 @@
           (unless (eof-object? line)
             (display "  ") (display line) (newline)
             (loop))))))
-  
+
   (newline))
 
 ;; 6. CSV 文件处理
 (define (demonstrate-csv-processing)
   (display "=== CSV 文件处理 ===\n\n")
-  
+
   ;; 创建 CSV 文件
   (display "1. 创建 CSV 文件:\n")
   (call-with-output-file "/tmp/data.csv"
@@ -202,7 +202,7 @@
       (fprintf port "王五,28,广州\n"))
     'replace)
   (display "  已创建 CSV 文件\n")
-  
+
   ;; 读取并解析 CSV
   (display "\n2. 解析 CSV 文件:\n")
   (call-with-input-file "/tmp/data.csv"
@@ -217,30 +217,30 @@
                 (display "    行 ") (display row-num) (display ": ")
                 (display fields) (newline)
                 (loop (+ row-num 1)))))))))
-  
+
   (newline))
 
 ;; 7. 追加到文件
 (define (demonstrate-append-mode)
   (display "=== 追加模式写入 ===\n\n")
-  
+
   ;; 初始写入
   (call-with-output-file "/tmp/log.txt"
     (lambda (port)
       (fprintf port "日志开始\n"))
     'replace)
-  
+
   ;; 追加写入
   (display "追加日志条目:\n")
   (do ([i 1 (+ i 1)])
       ((> i 5))
     (call-with-output-file "/tmp/log.txt"
       (lambda (port)
-        (fprintf port "[~a] 日志条目 ~a\n" 
+        (fprintf port "[~a] 日志条目 ~a\n"
                 (current-time) i))
       'append)
     (display "  添加条目 ") (display i) (newline))
-  
+
   ;; 读取完整日志
   (display "\n完整日志内容:\n")
   (call-with-input-file "/tmp/log.txt"
@@ -250,7 +250,7 @@
           (unless (eof-object? line)
             (display "  ") (display line) (newline)
             (loop))))))
-  
+
   (newline))
 
 ;; 当前时间的简单表示
@@ -268,7 +268,7 @@
 (define (main)
   (display "Chez Scheme 文件 I/O 示例\n")
   (display "==========================\n\n")
-  
+
   (demonstrate-basic-io)
   (demonstrate-line-processing)
   (demonstrate-binary-io)
@@ -276,7 +276,7 @@
   (demonstrate-formatted-output)
   (demonstrate-csv-processing)
   (demonstrate-append-mode)
-  
+
   (display "文件 I/O 示例完成！\n"))
 
 ;; 运行
