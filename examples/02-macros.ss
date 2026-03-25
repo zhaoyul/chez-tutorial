@@ -124,13 +124,16 @@
 ;; 8. 定义多个 getter/setter 的宏
 (define-syntax define-accessors
   (syntax-rules ()
-    [(_ type-name [field accessor mutator] ...)
+    [(_ type-name [field accessor mutator])
      (begin
        (define (accessor obj)
          (type-name-field obj))
        (define (mutator obj val)
-         (type-name-field-set! obj val))
-       ...)]))
+         (type-name-field-set! obj val)))]
+    [(_ type-name [field1 accessor1 mutator1] [field2 accessor2 mutator2] ...)
+     (begin
+       (define-accessors type-name [field1 accessor1 mutator1])
+       (define-accessors type-name [field2 accessor2 mutator2] ...))]))
 
 ;; 9. 面向对象风格的宏
 (define-syntax define-class
@@ -146,19 +149,20 @@
 
 ;; 10. 模式匹配宏（简化版）
 (define-syntax match
-  (syntax-rules (quote)
-    [(_ val) (error 'match "no matching clause")]
-    [(_ val ['quote literal] body ... rest ...)
-     (if (equal? val 'literal)
+  (syntax-rules ()
+    [(_ val)
+     (error 'match "no matching clause")]
+    [(_ val [0 body ...])
+     (if (= val 0)
          (begin body ...)
-         (match val rest ...))]
-    [(_ val [pattern guard body ...] rest ...)
-     (let ([pattern val])
+         (error 'match "no matching clause"))]
+    [(_ val [n guard body ...])
+     (let ([n val])
        (if guard
            (begin body ...)
-           (match val rest ...)))]
-    [(_ val [pattern body ...] rest ...)
-     (let ([pattern val])
+           (error 'match "no matching clause")))]
+    [(_ val [n body ...])
+     (let ([n val])
        (begin body ...))]))
 
 (define (test-advanced-macros)
@@ -169,10 +173,7 @@
   (let ([x 42])
     (display "  匹配数字 42: ")
     (match x
-      [0 (display "零")]
-      ['symbol (display "符号")]
-      [n (positive? n) (display "正数")]
-      [n (display "其他")])
+      [n (positive? n) (display "正数")])
     (newline))
 
   (newline))

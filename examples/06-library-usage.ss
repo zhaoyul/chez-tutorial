@@ -1,6 +1,16 @@
 #!/usr/bin/env scheme-script
 ;; 库使用示例
 
+;; 设置库搜索路径（根据当前工作目录调整）
+(let ([cwd (current-directory)])
+  ;; 如果在 examples 目录中，需要包含上级目录
+  ;; 如果在项目根目录中，需要包含 examples 目录
+  (library-directories 
+    (list "." 
+          ".."
+          (format "~a" cwd)
+          (format "~a/examples" cwd))))
+
 ;; 导入我们创建的库
 (import (mylib math))
 (import (mylib string-utils))
@@ -60,30 +70,29 @@
 (define (test-stack)
   (display "=== 栈数据结构测试 ===\n\n")
 
-  (define stk (make-stack))
+  (let ([stk (make-stack)])
+    (display "创建空栈\n")
+    (display "  empty? = ") (display (empty? stk)) (newline)
 
-  (display "创建空栈\n")
-  (display "  empty? = ") (display (empty? stk)) (newline)
+    (display "\n压入元素 1, 2, 3:\n")
+    (push! stk 1)
+    (push! stk 2)
+    (push! stk 3)
+    (display "  栈内容: ") (display (stack->list stk)) (newline)
+    (display "  empty? = ") (display (empty? stk)) (newline)
 
-  (display "\n压入元素 1, 2, 3:\n")
-  (push! stk 1)
-  (push! stk 2)
-  (push! stk 3)
-  (display "  栈内容: ") (display (stack->list stk)) (newline)
-  (display "  empty? = ") (display (empty? stk)) (newline)
+    (display "\npeek:\n")
+    (display "  栈顶元素: ") (display (peek stk)) (newline)
 
-  (display "\npeek:\n")
-  (display "  栈顶元素: ") (display (peek stk)) (newline)
+    (display "\npop:\n")
+    (display "  弹出: ") (display (pop! stk)) (newline)
+    (display "  弹出: ") (display (pop! stk)) (newline)
+    (display "  栈内容: ") (display (stack->list stk)) (newline)
 
-  (display "\npop:\n")
-  (display "  弹出: ") (display (pop! stk)) (newline)
-  (display "  弹出: ") (display (pop! stk)) (newline)
-  (display "  栈内容: ") (display (stack->list stk)) (newline)
-
-  (display "\n压入更多元素:\n")
-  (push! stk 4)
-  (push! stk 5)
-  (display "  栈内容: ") (display (stack->list stk)) (newline)
+    (display "\n压入更多元素:\n")
+    (push! stk 4)
+    (push! stk 5)
+    (display "  栈内容: ") (display (stack->list stk)) (newline))
 
   (newline))
 
@@ -114,23 +123,23 @@
     (display "  解析: ") (display (string-split csv-line ",")) (newline))
 
   (display "\n使用栈处理表达式:\n")
-  (define stk (make-stack))
-  (display "  表达式: 3 4 + 5 *\n")
-  (push! stk 3)
-  (display "  push 3: ") (display (stack->list stk)) (newline)
-  (push! stk 4)
-  (display "  push 4: ") (display (stack->list stk)) (newline)
-  (let ([b (pop! stk)]
-        [a (pop! stk)])
-    (push! stk (+ a b))
-    (display "  计算 +: ") (display (stack->list stk)) (newline))
-  (push! stk 5)
-  (display "  push 5: ") (display (stack->list stk)) (newline)
-  (let ([b (pop! stk)]
-        [a (pop! stk)])
-    (push! stk (* a b))
-    (display "  计算 *: ") (display (stack->list stk)) (newline))
-  (display "  结果: ") (display (pop! stk)) (newline)
+  (let ([stk (make-stack)])
+    (display "  表达式: 3 4 + 5 *\n")
+    (push! stk 3)
+    (display "  push 3: ") (display (stack->list stk)) (newline)
+    (push! stk 4)
+    (display "  push 4: ") (display (stack->list stk)) (newline)
+    (let ([b (pop! stk)]
+          [a (pop! stk)])
+      (push! stk (+ a b))
+      (display "  计算 +: ") (display (stack->list stk)) (newline))
+    (push! stk 5)
+    (display "  push 5: ") (display (stack->list stk)) (newline)
+    (let ([b (pop! stk)]
+          [a (pop! stk)])
+      (push! stk (* a b))
+      (display "  计算 *: ") (display (stack->list stk)) (newline))
+    (display "  结果: ") (display (pop! stk)) (newline))
 
   (newline))
 

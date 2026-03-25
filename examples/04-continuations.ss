@@ -2,6 +2,18 @@
 ;; Continuation 示例
 
 ;; 1. 基本的 call/cc 用法
+
+;; 条件返回辅助函数
+(define (find-first pred lst)
+  (call/cc
+   (lambda (return)
+     (for-each
+      (lambda (x)
+        (when (pred x)
+          (return x)))
+      lst)
+     #f)))
+
 (define (demonstrate-basic-callcc)
   (display "=== 基本 call/cc 示例 ===\n\n")
 
@@ -18,16 +30,6 @@
 
   ;; 条件返回
   (display "\n2. 条件提前返回:\n")
-  (define (find-first pred lst)
-    (call/cc
-     (lambda (return)
-       (for-each
-        (lambda (x)
-          (when (pred x)
-            (return x)))
-        lst)
-       #f)))
-
   (display "  在 '(1 3 5 6 7 9) 中找到第一个偶数: ")
   (display (find-first even? '(1 3 5 6 7 9)))
   (newline)
@@ -35,22 +37,23 @@
   (newline))
 
 ;; 2. 非局部退出
+
+;; 从嵌套循环中退出的辅助函数
+(define (find-pair pred lst1 lst2)
+  (call/cc
+   (lambda (return)
+     (for-each
+      (lambda (x)
+        (for-each
+         (lambda (y)
+           (when (pred x y)
+             (return (cons x y))))
+         lst2))
+      lst1)
+     #f)))
+
 (define (demonstrate-nonlocal-exit)
   (display "=== 非局部退出示例 ===\n\n")
-
-  ;; 从嵌套循环中退出
-  (define (find-pair pred lst1 lst2)
-    (call/cc
-     (lambda (return)
-       (for-each
-        (lambda (x)
-          (for-each
-           (lambda (y)
-             (when (pred x y)
-               (return (cons x y))))
-           lst2))
-        lst1)
-       #f)))
 
   (display "找到满足 x + y = 10 的数对:\n")
   (let ([pair (find-pair (lambda (x y) (= (+ x y) 10))
@@ -69,102 +72,107 @@
   (newline))
 
 ;; 3. 生成器
+
+;; 生成器辅助函数
+(define (make-range-generator start end)
+  (let ([current start]
+        [return #f])
+    (lambda ()
+      (call/cc
+       (lambda (k)
+         (set! return k)
+         (when (>= current end)
+           (return 'done))
+         (let ([value current])
+           (set! current (+ current 1))
+           value))))))
+
 (define (demonstrate-generators)
   (display "=== 生成器示例 ===\n\n")
 
-  (define (make-range-generator start end)
-    (let ([current start]
-          [return #f])
-      (lambda ()
-        (call/cc
-         (lambda (k)
-           (set! return k)
-           (when (>= current end)
-             (return 'done))
-           (let ([value current])
-             (set! current (+ current 1))
-             value))))))
-
   (display "生成器生成 0-5:\n  ")
-  (define gen (make-range-generator 0 5))
-  (let loop ()
-    (let ([val (gen)])
-      (unless (eq? val 'done)
-        (display val)
-        (display " ")
-        (loop))))
+  (let ([gen (make-range-generator 0 5)])
+    (let loop ()
+      (let ([val (gen)])
+        (unless (eq? val 'done)
+          (display val)
+          (display " ")
+          (loop)))))
   (newline)
 
   (newline))
 
 ;; 4. 协程（Coroutines）
+
+;; 协程辅助函数
+(define (make-coroutine proc)
+  (let ([return #f]
+        [resume #f])
+    (define (yield value)
+      (call/cc
+       (lambda (k)
+         (set! resume k)
+         (return value))))
+    (lambda (value)
+      (call/cc
+       (lambda (k)
+         (set! return k)
+         (if resume
+             (resume value)
+             (begin
+               (proc yield)
+               'done)))))))
+
 (define (demonstrate-coroutines)
   (display "=== 协程示例 ===\n\n")
 
-  (define (make-coroutine proc)
-    (let ([return #f]
-          [resume #f])
-      (define (yield value)
-        (call/cc
-         (lambda (k)
-           (set! resume k)
-           (return value))))
-      (lambda (value)
-        (call/cc
-         (lambda (k)
-           (set! return k)
-           (if resume
-               (resume value)
-               (begin
-                 (proc yield)
-                 'done)))))))
-
   (display "协程：生产者-消费者模式\n")
-  (define producer
-    (make-coroutine
-     (lambda (yield)
-       (let loop ([i 1])
-         (when (<= i 5)
-           (yield i)
-           (loop (+ i 1)))))))
-
-  (display "  生产: ")
-  (let loop ()
-    (let ([val (producer #f)])
-      (unless (eq? val 'done)
-        (display val)
-        (display " ")
-        (loop))))
+  (let ([producer
+         (make-coroutine
+          (lambda (yield)
+            (let loop ([i 1])
+              (when (<= i 5)
+                (yield i)
+                (loop (+ i 1))))))])
+    (display "  生产: ")
+    (let loop ()
+      (let ([val (producer #f)])
+        (unless (eq? val 'done)
+          (display val)
+          (display " ")
+          (loop)))))
   (newline)
 
   (newline))
 
 ;; 5. 异常处理的实现
+
+;; 异常处理辅助定义
+(define *handlers* '())
+
+(define (push-handler! handler)
+  (set! *handlers* (cons handler *handlers*)))
+
+(define (pop-handler!)
+  (set! *handlers* (cdr *handlers*)))
+
+(define (throw exception)
+  (if (null? *handlers*)
+      (error 'throw "未捕获的异常" exception)
+      ((car *handlers*) exception)))
+
+(define-syntax try
+  (syntax-rules (catch)
+    [(_ body (catch handler))
+     (call/cc
+      (lambda (k)
+        (push-handler! (lambda (ex) (k (handler ex))))
+        (let ([result body])
+          (pop-handler!)
+          result)))]))
+
 (define (demonstrate-exception-handling)
   (display "=== 使用 call/cc 实现异常处理 ===\n\n")
-
-  (define *handlers* '())
-
-  (define (push-handler! handler)
-    (set! *handlers* (cons handler *handlers*)))
-
-  (define (pop-handler!)
-    (set! *handlers* (cdr *handlers*)))
-
-  (define (throw exception)
-    (if (null? *handlers*)
-        (error 'throw "未捕获的异常" exception)
-        ((car *handlers*) exception)))
-
-  (define-syntax try
-    (syntax-rules (catch)
-      [(_ body (catch handler))
-       (call/cc
-        (lambda (k)
-          (push-handler! (lambda (ex) (k (handler ex))))
-          (let ([result body])
-            (pop-handler!)
-            result)))]))
 
   (display "示例 1: 捕获异常\n")
   (display "  结果: ")
@@ -184,32 +192,33 @@
   (newline))
 
 ;; 6. 回溯搜索
+
+;; 回溯框架辅助定义
+(define *paths* '())
+
+(define (mark-choice)
+  (call/cc
+   (lambda (k)
+     (set! *paths* (cons k *paths*))
+     #f)))
+
+(define (backtrack)
+  (if (null? *paths*)
+      (error 'backtrack "no more choices")
+      (let ([k (car *paths*)])
+        (set! *paths* (cdr *paths*))
+        (k #t))))
+
+(define (choose-from lst)
+  (if (null? lst)
+      (backtrack)
+      (let ([choice (car lst)])
+        (if (mark-choice)
+            (choose-from (cdr lst))
+            choice))))
+
 (define (demonstrate-backtracking)
   (display "=== 回溯搜索示例 ===\n\n")
-
-  ;; 简单的回溯框架
-  (define *paths* '())
-
-  (define (mark-choice)
-    (call/cc
-     (lambda (k)
-       (set! *paths* (cons k *paths*))
-       #f)))
-
-  (define (backtrack)
-    (if (null? *paths*)
-        (error 'backtrack "no more choices")
-        (let ([k (car *paths*)])
-          (set! *paths* (cdr *paths*))
-          (k #t))))
-
-  (define (choose-from lst)
-    (if (null? lst)
-        (backtrack)
-        (let ([choice (car lst)])
-          (if (mark-choice)
-              (choose-from (cdr lst))
-              choice))))
 
   (display "在列表中选择两个数字，使其和为 10:\n")
   (call/cc
@@ -230,25 +239,27 @@
   (newline))
 
 ;; 7. 时间旅行调试器（概念演示）
+
+;; 时间旅行辅助定义
+(define snapshots '())
+
+(define (take-snapshot)
+  (call/cc
+   (lambda (k)
+     (set! snapshots (cons k snapshots))
+     'snapshot-taken)))
+
+(define (restore-snapshot n)
+  (if (< n (length snapshots))
+      (begin
+        (display "恢复到快照 ")
+        (display n)
+        (newline)
+        ((list-ref snapshots n) 'restored))
+      (error 'restore-snapshot "invalid snapshot")))
+
 (define (demonstrate-time-travel)
   (display "=== 时间旅行概念 ===\n\n")
-
-  (define snapshots '())
-
-  (define (take-snapshot)
-    (call/cc
-     (lambda (k)
-       (set! snapshots (cons k snapshots))
-       'snapshot-taken)))
-
-  (define (restore-snapshot n)
-    (if (< n (length snapshots))
-        (begin
-          (display "恢复到快照 ")
-          (display n)
-          (newline)
-          ((list-ref snapshots n) 'restored))
-        (error 'restore-snapshot "invalid snapshot")))
 
   (display "程序执行过程:\n")
   (let ([counter 0])

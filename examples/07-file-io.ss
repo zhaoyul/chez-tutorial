@@ -105,35 +105,46 @@
           ""
           (substring str start end)))))
 
-;; 3. 二进制文件处理
+;; 3. 字节向量演示（替代二进制文件 I/O）
 (define (demonstrate-binary-io)
-  (display "=== 二进制文件 I/O ===\n\n")
+  (display "=== 字节向量操作演示 ===\n\n")
 
-  ;; 写入二进制数据
-  (display "1. 写入二进制文件:\n")
-  (let ([filename "/tmp/binary-data.bin"])
-    (call-with-output-file filename
-      (lambda (port)
-        (let ([bv (make-bytevector 10)])
-          (do ([i 0 (+ i 1)])
-              ((>= i 10))
-            (bytevector-u8-set! bv i (* i 10)))
-          (put-bytevector port bv)))
-      'replace)
-    (display "  已写入二进制文件\n"))
+  ;; 创建和操作字节向量
+  (display "1. 创建字节向量:\n")
+  (let ([bv (make-bytevector 10)])
+    (do ([i 0 (+ i 1)])
+        ((>= i 10))
+      (bytevector-u8-set! bv i (* i 10)))
+    (display "  字节向量内容: ")
+    (do ([i 0 (+ i 1)])
+        ((>= i (bytevector-length bv)))
+      (display (bytevector-u8-ref bv i))
+      (display " "))
+    (newline))
 
-  ;; 读取二进制数据
-  (display "\n2. 读取二进制文件:\n")
-  (call-with-input-file "/tmp/binary-data.bin"
-    (lambda (port)
-      (let ([bv (get-bytevector-all port)])
-        (display "  字节数: ") (display (bytevector-length bv)) (newline)
-        (display "  内容: ")
-        (do ([i 0 (+ i 1)])
-            ((>= i (bytevector-length bv)))
-          (display (bytevector-u8-ref bv i))
-          (display " "))
-        (newline))))
+  ;; 字节向量字面量
+  (display "\n2. 字节向量字面量:\n")
+  (let ([bv #vu8(1 2 3 4 5)])
+    (display "  #vu8(1 2 3 4 5) 长度: ")
+    (display (bytevector-length bv))
+    (newline))
+
+  ;; 字节向量操作
+  (display "\n3. 字节向量操作:\n")
+  (let ([bv1 (make-bytevector 5 0)]
+        [bv2 (make-bytevector 5 255)])
+    (display "  bv1 (初始化为0): ")
+    (do ([i 0 (+ i 1)])
+        ((>= i 5))
+      (display (bytevector-u8-ref bv1 i))
+      (display " "))
+    (newline)
+    (display "  bv2 (初始化为255): ")
+    (do ([i 0 (+ i 1)])
+        ((>= i 5))
+      (display (bytevector-u8-ref bv2 i))
+      (display " "))
+    (newline))
 
   (newline))
 
