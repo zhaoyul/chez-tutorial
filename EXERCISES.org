@@ -6,49 +6,49 @@
 
 *** 练习 1: 列表操作
 
-*问题*: 实现一个函数 ~flatten~，将嵌套列表展平为一维列表。
+*问题*: 实现一个函数 ~flatten~, 将嵌套列表展平为一维列表.
 
 #+begin_src scheme
-;; 示例
-(flatten '(1 (2 3) (4 (5 6))))  ; => (1 2 3 4 5 6)
-(flatten '((1) ((2)) (((3)))))  ; => (1 2 3)
+  ;; 示例
+  (flatten '(1 (2 3) (4 (5 6))))  ; => (1 2 3 4 5 6)
+  (flatten '((1) ((2)) (((3)))))  ; => (1 2 3)
 #+end_src
 
-*提示*: 使用递归，检查元素是否为列表。
+*提示*: 使用递归, 检查元素是否为列表.
 
 :查看答案:
 #+begin_src scheme
-(define (flatten lst)
-  (cond
-    [(null? lst) '()]
-    [(pair? (car lst))
-     (append (flatten (car lst)) (flatten (cdr lst)))]
-    [else
-     (cons (car lst) (flatten (cdr lst)))]))
-
-;; 尾递归版本
-(define (flatten-tail lst)
-  (let loop ([lst lst] [acc '()])
+  (define (flatten lst)
     (cond
-      [(null? lst) (reverse acc)]
+      [(null? lst) '()]
       [(pair? (car lst))
-       (loop (cdr lst) (loop (car lst) acc))]
+       (append (flatten (car lst)) (flatten (cdr lst)))]
       [else
-       (loop (cdr lst) (cons (car lst) acc))])))
+       (cons (car lst) (flatten (cdr lst)))]))
+
+  ;; 尾递归版本
+  (define (flatten-tail lst)
+    (let loop ([lst lst] [acc '()])
+      (cond
+        [(null? lst) (reverse acc)]
+        [(pair? (car lst))
+         (loop (cdr lst) (loop (car lst) acc))]
+        [else
+         (loop (cdr lst) (cons (car lst) acc))])))
 #+end_src
 :END:
 
 
 *** 练习 2: 高阶函数
 
-*问题*: 实现 ~compose~ 和 ~curry~ 函数。
+*问题*: 实现 ~compose~ 和 ~curry~ 函数.
 
 #+begin_src scheme
 ;; compose: (compose f g) 返回 f ∘ g
 ;; curry: 将二元函数转换为柯里化形式
 #+end_src
 
-*提示*: ~compose~ 返回一个新函数，~curry~ 返回嵌套的 lambda。
+*提示*: ~compose~ 返回一个新函数, ~curry~ 返回嵌套的 lambda.
 
 :查看答案:
 #+begin_src scheme
@@ -82,9 +82,9 @@
 
 *** 练习 3: 快速排序
 
-*问题*: 实现快速排序算法。
+*问题*: 实现快速排序算法.
 
-*提示*: 选择枢轴，分区，递归排序。
+*提示*: 选择枢轴, 分区, 递归排序.
 
 :查看答案:
 #+begin_src scheme
@@ -119,14 +119,14 @@
 
 *** 练习 4: 循环宏
 
-*问题*: 实现一个 ~while~ 宏。
+*问题*: 实现一个 ~while~ 宏.
 
 #+begin_src scheme
 (while condition
   body ...)
 #+end_src
 
-*提示*: 使用 ~syntax-rules~，转换为 ~let~ 循环。
+*提示*: 使用 ~syntax-rules~, 转换为 ~let~ 循环.
 
 :查看答案:
 #+begin_src scheme
@@ -151,7 +151,7 @@
 
 *** 练习 5: 模式匹配宏
 
-*问题*: 实现一个简化的 ~match~ 宏，支持常量和变量模式。
+*问题*: 实现一个简化的 ~match~ 宏, 支持常量和变量模式.
 
 #+begin_src scheme
 (match value
@@ -160,7 +160,7 @@
   [x x])
 #+end_src
 
-*提示*: 使用 ~syntax-case~。
+*提示*: 使用 ~syntax-case~.
 
 :查看答案:
 #+begin_src scheme
@@ -189,9 +189,9 @@
 
 *** 练习 6: 二叉树
 
-*问题*: 使用记录类型实现二叉树，并实现插入、查找和遍历操作。
+*问题*: 使用记录类型实现二叉树, 并实现插入、查找和遍历操作.
 
-*提示*: 定义 ~tree-node~ 记录，实现 BST 算法。
+*提示*: 定义 ~tree-node~ 记录, 实现 BST 算法.
 
 :查看答案:
 #+begin_src scheme
@@ -249,7 +249,7 @@
 
 *** 练习 7: 栈和队列
 
-*问题*: 使用记录类型实现栈和队列数据结构。
+*问题*: 使用记录类型实现栈和队列数据结构.
 
 :查看答案:
 #+begin_src scheme
@@ -316,7 +316,7 @@
 
 *** 练习 8: 生成器
 
-*问题*: 使用 ~call/cc~ 实现一个生成从 start 到 end 的整数生成器。
+*问题*: 使用 ~call/cc~ 实现一个生成从 start 到 end 的整数生成器.
 
 :查看答案:
 #+begin_src scheme
@@ -347,7 +347,7 @@
 
 *** 练习 9: 协程
 
-*问题*: 实现两个协程，相互传递控制权。
+*问题*: 实现两个协程, 相互传递控制权.
 
 :查看答案:
 #+begin_src scheme
@@ -408,7 +408,7 @@
 2. 记忆化
 3. 迭代（尾递归）
 
-比较它们的性能。
+比较它们的性能.
 
 :查看答案:
 #+begin_src scheme
@@ -468,7 +468,7 @@
 
 *** 练习 11: 简单的解释器
 
-*问题*: 实现一个简单的算术表达式解释器，支持 ~+~, ~-~, ~*~, ~/~ 和括号。
+*问题*: 实现一个简单的算术表达式解释器, 支持 ~+~, ~-~, ~*~, ~/~ 和括号.
 
 *示例*:
 #+begin_src scheme
@@ -504,7 +504,7 @@
 
 *** 练习 12: 简单的数据库
 
-*问题*: 实现一个简单的内存数据库，支持插入、查询和更新操作。
+*问题*: 实现一个简单的内存数据库, 支持插入、查询和更新操作.
 
 :查看答案:
 #+begin_src scheme
@@ -561,11 +561,11 @@
 
 *** 练习 13: Y 组合子
 
-*问题*: 实现 Y 组合子，并用它定义阶乘函数。
+*问题*: 实现 Y 组合子, 并用它定义阶乘函数.
 
 :查看答案:
 #+begin_src scheme
-;; Y 组合子（不能直接在 Scheme 中工作，因为立即求值）
+;; Y 组合子（不能直接在 Scheme 中工作, 因为立即求值）
 ;; 使用 Z 组合子（适用于应用序）
 (define Z
   (lambda (f)
@@ -602,7 +602,7 @@
 
 *** 练习 14: 惰性求值
 
-*问题*: 实现惰性求值的无限流。
+*问题*: 实现惰性求值的无限流.
 
 :查看答案:
 #+begin_src scheme
@@ -677,4 +677,4 @@
 5. *性能*: 优化技巧
 6. *项目*: 实际应用
 
-建议按顺序完成这些练习，并尝试自己实现答案后再查看参考答案。祝学习愉快！
+建议按顺序完成这些练习, 并尝试自己实现答案后再查看参考答案. 祝学习愉快！

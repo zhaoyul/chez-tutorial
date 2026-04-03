@@ -20,16 +20,16 @@ squares = [x**2 for x in numbers]
 #+end_src
 
 #+begin_src scheme
-;; Chez Scheme
-(define x 10)
-(define y 20)
-(define result (+ x y))
+  ;; Chez Scheme
+  (define x 10)
+  (define y 20)
+  (define result (+ x y))
 
-(define (square x)
-  (* x x))
+  (define (square x)
+    (* x x))
 
-(define numbers '(1 2 3 4 5))
-(define squares (map (lambda (x) (* x x)) numbers))
+  (define numbers '(1 2 3 4 5))
+  (define squares (map (lambda (x) (* x x)) numbers))
 #+end_src
 
 *** 控制流
@@ -52,20 +52,20 @@ while condition:
 #+end_src
 
 #+begin_src scheme
-;; Chez Scheme
-(cond
-  [(> x 0) (display "positive")]
-  [(< x 0) (display "negative")]
-  [else (display "zero")])
+  ;; Chez Scheme
+  (cond
+    [(> x 0) (display "positive")]
+    [(< x 0) (display "negative")]
+    [else (display "zero")])
 
-(do ([i 0 (+ i 1)])
-    ((>= i 10))
-  (display i))
+  (do ([i 0 (+ i 1)])
+      ((>= i 10))
+    (display i))
 
-(let loop ()
-  (when condition
-    ;; do something
-    (loop)))
+  (let loop ()
+    (when condition
+      ;; do something
+      (loop)))
 #+end_src
 
 *** 函数式编程

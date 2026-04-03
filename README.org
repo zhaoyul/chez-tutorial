@@ -344,6 +344,6 @@ scheme --script examples/08-utilities.ss
 
 ---
 
-*开始学习: * [[file:tutorial.md][阅读完整教程 →]]
+*开始学习:* [[file:tutorial.md][阅读完整教程 →]]
 
-*运行示例: * ~scheme --script examples/01-basic-syntax.ss~
+*运行示例:* ~scheme --script examples/01-basic-syntax.ss~
