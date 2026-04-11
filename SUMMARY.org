@@ -5,19 +5,19 @@
 ** 📚 学习资源总览
 
 *** 主要教程
-- *[[tutorial.org][tutorial.md]]* (1,808 行)
+- *[[tutorial.org][tutorial.org]]* (1,785 行)
   - 12 章完整教程
   - 从基础到高级的系统性讲解
   - 包含大量实例和最佳实践
 
 *** 快速参考
-- *[[README.org][README.md]]* - 项目概览和快速开始
-- *[[QUICK-REFERENCE.org][QUICK-REFERENCE.md]]* - 语法速查手册
-- *[[LANGUAGE-COMPARISON.org][LANGUAGE-COMPARISON.md]]* - 与其他语言的对比
+- *[[README.org][README.org]]* - 项目概览和快速开始
+- *[[QUICK-REFERENCE.org][QUICK-REFERENCE.org]]* - 语法速查手册
+- *[[LANGUAGE-COMPARISON.org][LANGUAGE-COMPARISON.org]]* - 与其他语言的对比
 
 *** 实践指南
-- *[[EXERCISES.org][EXERCISES.md]]* - 14 个练习题（含详细答案）
-- *[[PROJECT-TEMPLATE.org][PROJECT-TEMPLATE.md]]* - 项目结构模板
+- *[[EXERCISES.org][EXERCISES.org]]* - 14 个练习题（含详细答案）
+- *[[PROJECT-TEMPLATE.org][PROJECT-TEMPLATE.org]]* - 项目结构模板
 
 ** 💻 示例代码
 
@@ -58,35 +58,35 @@
 ** 🎯 学习路径
 
 *** 初学者路径（有其他 Lisp 经验）
-1. 阅读 [[README.org][README.md]] 了解概况
-2. 浏览 [[QUICK-REFERENCE.org][QUICK-REFERENCE.md]] 熟悉语法
+1. 阅读 [[README.org][README.org]] 了解概况
+2. 浏览 [[QUICK-REFERENCE.org][QUICK-REFERENCE.org]] 熟悉语法
 3. 运行 [[examples/01-basic-syntax.ss][01-basic-syntax.ss]]
-4. 完成 [[EXERCISES.org][EXERCISES.md]] 前 5 个练习
-5. 深入 [[tutorial.org][tutorial.md]] 第 1-6 章
+4. 完成 [[EXERCISES.org][EXERCISES.org]] 前 5 个练习
+5. 深入 [[tutorial.org][tutorial.org]] 第 1-6 章
 
 *** 中级路径（想深入理解）
-1. 学习 [[tutorial.org][tutorial.md]] 第 4 章（宏系统）
+1. 学习 [[tutorial.org][tutorial.org]] 第 4 章（宏系统）
 2. 运行 [[examples/02-macros.ss][02-macros.ss]]
-3. 完成 [[EXERCISES.org][EXERCISES.md]] 练习 4-7
+3. 完成 [[EXERCISES.org][EXERCISES.org]] 练习 4-7
 4. 学习 [[examples/04-continuations.ss][04-continuations.ss]]
-5. 完成 [[EXERCISES.org][EXERCISES.md]] 练习 8-9
+5. 完成 [[EXERCISES.org][EXERCISES.org]] 练习 8-9
 
 *** 高级路径（追求性能和实战）
-1. 研究 [[tutorial.org][tutorial.md]] 第 7、9 章
+1. 研究 [[tutorial.org][tutorial.org]] 第 7、9 章
 2. 分析 [[examples/05-performance.ss][05-performance.ss]]
-3. 完成 [[EXERCISES.org][EXERCISES.md]] 练习 10-14
-4. 使用 [[PROJECT-TEMPLATE.org][PROJECT-TEMPLATE.md]] 构建项目
-5. 探索 FFI 和并发（[[tutorial.org][tutorial.md]] 第 6、8 章）
+3. 完成 [[EXERCISES.org][EXERCISES.org]] 练习 10-14
+4. 使用 [[PROJECT-TEMPLATE.org][PROJECT-TEMPLATE.org]] 构建项目
+5. 探索 FFI 和并发（[[tutorial.org][tutorial.org]] 第 6、8 章）
 
 ** 📊 内容统计
 
 | 类别 | 文件数 | 总行数 | 说明 |
 |------|--------|--------|------|
-| 核心教程 | 1 | 1,808 | 完整的理论讲解 |
-| 示例代码 | 8 | 1,908 | 可运行的实例 |
-| 参考文档 | 4 | 2,784 | 速查和对比 |
-| 库文件 | 2 | 182 | 自定义库 |
-| *总计* | *15* | *6,682* | |
+| 核心教程 | 1 | 1,785 | 完整的理论讲解 |
+| 示例代码 | 8 | 1,996 | 可运行的实例 |
+| 参考文档 | 5 | 2,605 | 速查和对比 |
+| 库文件 | 3 | 142 | 自定义库 |
+| *总计* | *17* | *6,528* | |
 
 ** 🎓 核心主题覆盖
 
@@ -187,4 +187,4 @@ scheme
 
 *开始你的 Chez Scheme 之旅吧！* 🚀
 
-从 [[README.org][README.md]] 开始，或直接跳到 [[tutorial.org][tutorial.md]]！
+从 [[README.org][README.org]] 开始，或直接跳到 [[tutorial.org][tutorial.org]]！

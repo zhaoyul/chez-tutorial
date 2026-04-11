@@ -50,7 +50,7 @@ sudo make install
 
 
 #+begin_example
-$ shez
+$ chez
 Chez Scheme Version 9.5.8
 Copyright 1984-2022 Cisco Systems, Inc.
 

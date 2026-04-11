@@ -21,7 +21,7 @@ Chez Scheme 是由 R. Kent Dybvig 开发的高性能 Scheme 实现, 现已开源
 
 *** 主教程文档
 
-📖 *[[file:tutorial.md][tutorial.md]]* - 完整的深入教程, 涵盖:
+📖 *[[file:tutorial.org][tutorial.org]]* - 完整的深入教程, 涵盖:
 
 1. *简介和环境配置* - Chez Scheme 的特点和安装
 2. *核心语言特性* - 数据类型, 控制流, 函数, 闭包, continuation
@@ -64,33 +64,44 @@ Chez Scheme 是由 R. Kent Dybvig 开发的高性能 Scheme 实现, 现已开源
 - *[[file:examples/08-utilities.ss][08-utilities.ss]]* - 实用工具示例
   - 命令行参数, 环境变量, 时间日期, 哈希表, 字符串操作
 
-- *[[file:examples/mylib.sls][mylib.sls]]* - 自定义库实现
-  - 数学库, 字符串工具, 数据结构(栈)
+- *[[file:examples/mylib/][examples/mylib/]]* - 自定义库实现目录
+  - 包含 ~math.sls~, ~string-utils.sls~, ~stack.sls~
 
 *** 参考文档
 
 📚 额外的学习资源:
 
-- *[[file:QUICK-REFERENCE.md][QUICK-REFERENCE.md]]* - 快速参考卡片
+- *[[file:QUICK-REFERENCE.org][QUICK-REFERENCE.org]]* - 快速参考卡片
   - 所有核心函数和语法的简洁参考
   - 常用模式和习语
   - 命令行选项
 
-- *[[file:EXERCISES.md][EXERCISES.md]]* - 练习题和答案
+- *[[file:EXERCISES.org][EXERCISES.org]]* - 练习题和答案
   - 14 个由浅入深的练习
   - 涵盖基础到高级主题
   - 包含详细的参考答案
 
-- *[[file:PROJECT-TEMPLATE.md][PROJECT-TEMPLATE.md]]* - 项目模板
+- *[[file:PROJECT-TEMPLATE.org][PROJECT-TEMPLATE.org]]* - 项目模板
   - 标准项目结构
   - Makefile 和构建脚本
   - 测试框架示例
   - 最佳实践指南
 
-- *[[file:LANGUAGE-COMPARISON.md][LANGUAGE-COMPARISON.md]]* - 语言对比
+- *[[file:LANGUAGE-COMPARISON.org][LANGUAGE-COMPARISON.org]]* - 语言对比
   - Chez Scheme vs Python/JavaScript/Java/C++/Haskell/Ruby/Common Lisp/Clojure
   - 语法对比和概念映射
   - 从其他语言迁移指南
+
+*** 仓库导航
+
+- ~README.org~: 项目概览、安装方式、学习路径和常用入口
+- ~tutorial.org~: 主教程，按主题系统讲解 Chez Scheme 的核心与高级特性
+- ~examples/~: 可直接运行的示例代码，按主题拆分为 8 个脚本
+- ~examples/mylib/~: 供库与模块章节配套使用的示例库实现
+- ~QUICK-REFERENCE.org~: 语法、函数和命令行选项速查
+- ~EXERCISES.org~: 练习题与参考答案
+- ~PROJECT-TEMPLATE.org~: 新项目目录结构和样板代码
+- ~LANGUAGE-COMPARISON.org~: 与其他语言/方言的概念映射
 
 ** 快速开始
 
@@ -149,12 +160,18 @@ scheme --script examples/08-utilities.ss
 
 *** 4. 学习路径
 
-1. *第一天*: 阅读 [[file:tutorial.md][tutorial.md]] 的前 5 章, 运行 [[file:examples/01-basic-syntax.ss][01-basic-syntax.ss]]
-2. *第二天*: 学习宏系统(第 4 章), 运行 [[file:examples/02-macros.ss][02-macros.ss]] 和完成 [[file:EXERCISES.md][EXERCISES.md]] 练习 4-5
+1. *第一天*: 阅读 [[file:tutorial.org][tutorial.org]] 的前 5 章, 运行 [[file:examples/01-basic-syntax.ss][01-basic-syntax.ss]]
+2. *第二天*: 学习宏系统(第 4 章), 运行 [[file:examples/02-macros.ss][02-macros.ss]] 和完成 [[file:EXERCISES.org][EXERCISES.org]] 练习 4-5
 3. *第三天*: 学习记录和模块系统(第 5-6 章), 实践 [[file:examples/03-records.ss][03-records.ss]]
 4. *第四天*: 深入 continuation(第 3 章), 运行 [[file:examples/04-continuations.ss][04-continuations.ss]]
 5. *第五天*: 性能优化(第 7 章), 分析 [[file:examples/05-performance.ss][05-performance.ss]]
-6. *后续*: 完成 [[file:EXERCISES.md][EXERCISES.md]] 的所有练习, 构建自己的项目
+6. *后续*: 完成 [[file:EXERCISES.org][EXERCISES.org]] 的所有练习, 构建自己的项目
+
+*** 5. 常见问题排查
+
+- *找不到 ~scheme~ 命令*: 不同平台的可执行文件名可能是 ~scheme~ 或 ~chez~。先运行 ~command -v scheme~ 和 ~command -v chez~ 检查；如果系统只提供 ~chez~，可直接把示例命令中的 ~scheme~ 替换为 ~chez~。
+- *运行示例时报找不到文件*: 从仓库根目录执行命令，例如 ~scheme --script examples/01-basic-syntax.ss~，避免在其他目录下运行导致相对路径失效。
+- *库导入失败*: 涉及自定义库的例子需要保留 ~examples/~ 下的目录结构，尤其不要单独移动 ~examples/mylib/~ 里的 ~.sls~ 文件。
 
 ** 学习路径
 
@@ -344,6 +361,6 @@ scheme --script examples/08-utilities.ss
 
 ---
 
-*开始学习:* [[file:tutorial.md][阅读完整教程 →]]
+*开始学习:* [[file:tutorial.org][阅读完整教程 →]]
 
 *运行示例:* ~scheme --script examples/01-basic-syntax.ss~
