@@ -136,26 +136,32 @@ Copyright 1984-2022 Cisco Systems, Inc.
 *** 3. 运行示例代码
 
 #+begin_src bash
+# 先选择本机可用的 Chez Scheme 命令
+SCHEME=${SCHEME:-$(command -v scheme || command -v chez)}
+
 # 运行基础语法示例
-scheme --script examples/01-basic-syntax.ss
+"$SCHEME" --script examples/01-basic-syntax.ss
 
 # 运行宏系统示例
-scheme --script examples/02-macros.ss
+"$SCHEME" --script examples/02-macros.ss
 
 # 运行记录类型示例
-scheme --script examples/03-records.ss
+"$SCHEME" --script examples/03-records.ss
 
 # 运行 continuation 示例
-scheme --script examples/04-continuations.ss
+"$SCHEME" --script examples/04-continuations.ss
 
 # 运行性能优化示例
-scheme --script examples/05-performance.ss
+"$SCHEME" --script examples/05-performance.ss
+
+# 运行库使用示例
+"$SCHEME" --script examples/06-library-usage.ss
 
 # 运行文件 I/O 示例
-scheme --script examples/07-file-io.ss
+"$SCHEME" --script examples/07-file-io.ss
 
 # 运行实用工具示例
-scheme --script examples/08-utilities.ss
+"$SCHEME" --script examples/08-utilities.ss
 #+end_src
 
 *** 4. 学习路径
@@ -169,8 +175,8 @@ scheme --script examples/08-utilities.ss
 
 *** 5. 常见问题排查
 
-- *找不到 ~scheme~ 命令*: 不同平台的可执行文件名可能是 ~scheme~ 或 ~chez~。先运行 ~command -v scheme~ 和 ~command -v chez~ 检查；如果系统只提供 ~chez~，可直接把示例命令中的 ~scheme~ 替换为 ~chez~。
-- *运行示例时报找不到文件*: 从仓库根目录执行命令，例如 ~scheme --script examples/01-basic-syntax.ss~，避免在其他目录下运行导致相对路径失效。
+- *找不到 ~scheme~ 命令*: 不同平台的可执行文件名可能是 ~scheme~ 或 ~chez~。上面的 ~SCHEME~ 设置会自动选择可用命令；如果你手动输入命令，可先运行 ~command -v scheme~ 和 ~command -v chez~ 检查。
+- *运行示例时报找不到文件*: 从仓库根目录执行命令，例如 ~"$SCHEME" --script examples/01-basic-syntax.ss~，避免在其他目录下运行导致相对路径失效。
 - *库导入失败*: 涉及自定义库的例子需要保留 ~examples/~ 下的目录结构，尤其不要单独移动 ~examples/mylib/~ 里的 ~.sls~ 文件。
 
 ** 学习路径
@@ -363,4 +369,4 @@ scheme --script examples/08-utilities.ss
 
 *开始学习:* [[file:tutorial.org][阅读完整教程 →]]
 
-*运行示例:* ~scheme --script examples/01-basic-syntax.ss~
+*运行示例:* 设置上文的 ~SCHEME~ 后运行 ~"$SCHEME" --script examples/01-basic-syntax.ss~
